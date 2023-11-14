@@ -46,12 +46,12 @@ typedef struct t_pin_sortie {
 /*
 Fonction: T_PIN_SORTIE_INIT (constructeur)
 Description: Crée un nouveau pin de sortie qui contient aucune valeur et aucune liaison.
-
 Paramètres: Aucun
 Retour: Pointeur vers le pin de sortie qui a été créée
 Paramètres modifié: N/A.
 */
 t_pin_sortie *t_pin_sortie_init(void);
+
 
 /*
 Fonction: T_PIN_SORTIE_DESTROY (Destructeur)
