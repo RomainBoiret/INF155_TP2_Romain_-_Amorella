@@ -20,41 +20,43 @@
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_INIT(constructeur)
 t_pin_sortie* t_pin_sortie_init(void)
-{    	t_pin_sortie* nouv_pin_sortie;
+{
+	t_pin_sortie* nouv_pin_sortie;
 
-    	nouv_pin_sortie = (t_pin_sortie*)malloc(sizeof(t_pin_sortie));
+	nouv_pin_sortie = (t_pin_sortie*)malloc(sizeof(t_pin_sortie));
 
-		//Ce pin contient aucune valeur et pas de liaison.
-		nouv_pin_sortie->valeur = INACTIF; 
+	//Ce pin contient aucune valeur et pas de liaison.
+	nouv_pin_sortie->valeur = INACTIF;
 
-		nouv_pin_sortie->nb_liaisons = 0; 
+	nouv_pin_sortie->nb_liaisons = 0;
 
-
-		return nouv_pin_sortie;
-	
+	return nouv_pin_sortie;
 }
 
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_DESTROY(Destructeur)
 void t_pin_sortie_destroy(t_pin_sortie* pin)
 {
-
-
-
+	free(pin);
 }
 
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_GET_VALEUR (Accesseur)
 int t_pin_sortie_get_valeur(t_pin_sortie* pin)
 {
-
+	return pin->valeur;
 }
 
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_SET_VALEUR (Mutateur)
 void t_pin_sortie_set_valeur(t_pin_sortie* pin, int valeur)
 {
-
+	if (valeur < INACTIF || valeur > 1)
+	{
+		//Valeur erron�e
+		return;
+	}
+	pin->valeur = valeur;
 }
 
 /*==========================================================*/
