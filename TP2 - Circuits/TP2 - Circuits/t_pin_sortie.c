@@ -53,7 +53,7 @@ void t_pin_sortie_set_valeur(t_pin_sortie* pin, int valeur)
 {
 	if (valeur < INACTIF || valeur > 1)
 	{
-		//Valeur erronée
+		//Valeur erronï¿½e
 		return;
 	}
 	pin->valeur = valeur;
