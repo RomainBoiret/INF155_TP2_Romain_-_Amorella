@@ -21,14 +21,22 @@
 //Fonction: T_ENTREE_INIT
 t_entree* t_entree_init(int id, char* nom)
 {
+	t_entree* nouv_entree;
 
+	nouv_entree = (t_entree*)malloc(sizeof(t_entree));
+
+	nouv_entree->id = id;
+	nouv_entree->nom = *nom;
+
+	return nouv_entree;
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_DESTROY
 void t_entree_destroy(t_entree* entree)
 {
-
+	t_pin_sortie_destroy(entree);
+	free(entree->pin);
 }
 
 /*==========================================================*/
