@@ -63,69 +63,56 @@ void t_pin_sortie_set_valeur(t_pin_sortie* pin, int valeur)
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_AJOUTER_LIEN
 int t_pin_sortie_ajouter_lien(t_pin_sortie* pin_sortie, t_pin_entree* pin_entree)
-{	int i = 0;
+{	
+	int i = 0;
 	
+    //On vérifie d'abord si on n'excède pas le nombre maximal de liens autorisés
+	if (pin_sortie->nb_liaisons < SORTIE_MAX_LIAISONS)
+	{  //je supprime la liaison du pin de sortie à lequel elle est présentement liée
 
-				 //On vérifie d'abord si on n'excède pas le nombre maximal de liens autorisés
-if (pin_sortie->nb_liaisons < SORTIE_MAX_LIAISONS)
+		t_pin_sortie_supprimer_lien(pin_sortie, pin_entree);
 
-{  //je supprime la liaison du pin de sortie à lequel elle est présentement liée
+		/*Là, le pin d'entrée est libre, on peut tout simplement aller dans le tableau de liaison et on pointe
+		la prochaine case pour y insérer le pin entrée, on AJOUTE un lien*/
 
-	t_pin_sortie_supprimer_lien(pin_sortie, pin_entree);
+		pin_sortie->liaisons[pin_sortie->nb_liaisons] = pin_entree;
+		pin_sortie->nb_liaisons++;
 
+		return 1;
+	}
 
-	/*Là, le pin d'entrée est libre, on peut tout simplement aller dans le tableau de liaison et on pointe
-   la prochaine case pour y insérer le pin entrée, on AJOUTE un lien*/
-
-	pin_sortie->liaisons[pin_sortie->nb_liaisons] = pin_entree;
-	pin_sortie->nb_liaisons++;
-
-	return 1;
-
-}
-
-else
-{
 	return 0;
-
-}
-	
-		
 }
 
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_SUPPRIMER_LIEN
 void t_pin_sortie_supprimer_lien(t_pin_sortie* pin_sortie, const t_pin_entree* pin_entree)
-{	int i;
+{	
+	int i;
 	int j;
+	
 	//1.je parcours tout mon tableau de 0 à nb de liaisons que j'ai dans cette sortie 
 	for (i = 0; i < pin_sortie->nb_liaisons; i++)
-
 	{
 		//si ce lien a été retrouvé entre le pin de sortie et celui d'entrée
 		if (pin_sortie->liaisons[i] == pin_entree)
-
-
-
+		{
 			// Décalage de toutes les liaisons suivantes vers la gauche à PARTIR DE i, i sera donc supprimé.
 			for (j = i; j < pin_sortie->nb_liaisons - 1; j++)// à partir de i jusqu'à la dernière case
-
-			{//position actuelle a dorénavant la valeur qui était à droite mtn
+			{
+				//position actuelle a dorénavant la valeur qui était à droite mtn
 				pin_sortie->liaisons[j] = pin_sortie->liaisons[j + 1];
 			}
-
+		}
 
 		// Diminution du nombre de liaisons de 1
 		pin_sortie->nb_liaisons--;
-
-
-
 	}
 }
 
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_EST_RELIEE
-	int t_pin_sortie_est_reliee(t_pin_sortie * pin)
+int t_pin_sortie_est_reliee(t_pin_sortie * pin)
 {
 		return pin->nb_liaisons > 0;
 }
