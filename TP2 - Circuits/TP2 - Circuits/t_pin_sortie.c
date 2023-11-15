@@ -27,7 +27,6 @@ t_pin_sortie* t_pin_sortie_init(void)
 
 	//Ce pin contient aucune valeur et pas de liaison.
 	nouv_pin_sortie->valeur = INACTIF;
-
 	nouv_pin_sortie->nb_liaisons = 0;
 
 	return nouv_pin_sortie;
