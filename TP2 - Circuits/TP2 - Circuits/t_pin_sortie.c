@@ -38,6 +38,7 @@ t_pin_sortie* t_pin_sortie_init(void)
 void t_pin_sortie_destroy(t_pin_sortie* pin)
 {
 	free(pin);
+	pin = NULL;
 }
 
 /*==========================================================*/
@@ -80,16 +81,28 @@ int t_pin_sortie_est_reliee(t_pin_sortie* pin)
 
 }
 
-/*==========================================================*/
+/*=========================================================*/
 //Fonction: T_PIN_SORTIE_PROPAGER_SIGNAL
 int t_pin_sortie_propager_signal(t_pin_sortie* pin)
 {
+	int i;
 
+	if (pin->valeur == INACTIF || pin->nb_liaisons == 0)
+	{
+		return 0; //Retourne Faux si non propagé.
+	}
+
+	for (i = 0; i < pin->nb_liaisons; i++)
+	{
+		pin->liaisons[i] = pin->valeur;
+	}
+
+	return 1; //Retourne Vrai si propagé.
 }
 
 /*==========================================================*/
 //Fonction: Fonction: T_PIN_SORTIE_RESET
 void t_pin_sortie_reset(t_pin_sortie* pin)
 {
-
+	pin->valeur = INACTIF;
 }
