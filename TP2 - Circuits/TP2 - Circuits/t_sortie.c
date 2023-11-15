@@ -21,15 +21,24 @@
 //Fonction: T_SORTIE_INIT
 t_sortie* t_sortie_init(int id, char* nom)
 {
+	t_sortie* sortie_init;
 
+	sortie_init = (t_sortie*)malloc(sizeof(t_sortie)); 
+
+	sortie_init->id = id;
+	sortie_init->nom = *nom;
+
+	return sortie_init;
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_DESTROY
 void t_sortie_destroy(t_sortie* sortie)
 {
-
+	t_pin_entree_destroy(sortie);
+	free(sortie->pin);
 }
+	
 
 /*==========================================================*/
 //Fonction: T_SORTIE_GET_PIN
