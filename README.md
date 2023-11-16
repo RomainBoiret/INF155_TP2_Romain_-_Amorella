@@ -7,6 +7,10 @@ Ce dépôt GitHub est dédié au développement d'un programme permettant de con
 - [Romain](https://github.com/RomainBoiret)
 - [Amorella](https://github.com/amorella)
 
+## Date de création
+
+14 novembre 2023
+
 ## Description du Projet
 
 Ce projet consiste à créer un programme permettant de concevoir des circuits logiques combinatoires en utilisant le langage de programmation C. 
@@ -16,10 +20,6 @@ Ce projet consiste à créer un programme permettant de concevoir des circuits l
 1.	Vérifier la validité du circuit conçu : il existe plusieurs critères pour établir la validité d’un circuit et la plupart sont déjà prises en compte par la conception qui vous sera présentée ci-dessous. Cependant, il restera un critère à vérifier et qui sera de s’assurer que toutes les composantes sont reliées entre elles. 
 
 2.	Propager un signal reçu sur les entrées du circuit pour calculer le signal en sortie du circuit.
-
-## Date de création
-
-14 novembre 2023
 
 ## Structure du Projet
 
