@@ -113,7 +113,7 @@ void t_pin_sortie_supprimer_lien(t_pin_sortie* pin_sortie, const t_pin_entree* p
 //Fonction: T_PIN_SORTIE_EST_RELIEE
 int t_pin_sortie_est_reliee(t_pin_sortie * pin)
 {
-		return pin->nb_liaisons != NULL;
+return pin->nb_liaisons != NULL;
 }
 
 /*=========================================================*/
