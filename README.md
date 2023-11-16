@@ -6,12 +6,12 @@ Un CLC est un ensemble de composants interreliés, comprenant des entrées de ci
 
 ## Auteurs
 
-- [Romain](https://github.com/RomainBoiret)
-- [Amorella](https://github.com/amorella)
+- [Romain Boiret](https://github.com/RomainBoiret)
+- [Amorella Lenga](https://github.com/amorella)
 
 ## Date de création
 
-14 novembre 2023
+14 November 2023
 
 ## Description du Projet
 
