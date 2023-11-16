@@ -1,6 +1,6 @@
 # Circuits logiques combinatoires - Projet GitHub en Binômes
 
-Ce dépôt GitHub est dédié au développement d'un programme permettant de concevoir des circuits logiques combinatoires (CLCs) et d’en calculer la table de vérité (partie bonus), réalisé dans le cadre d'un projet en binômes. Un CLC est un ensemble de composants interreliés, comprenant des entrées de circuit, des sorties de circuit et des portes logiques. Une porte logique est une composante qui reçoit un signal, en entrée, et produit un signal résultat, en sortie. Le signal produit par la porte logique dépend du signal reçu en entrée et de sa table de vérité. Pour une combinaison donnée de signaux en entrée, la porte produit invariablement une seule et même sortie.
+  Ce dépôt GitHub est dédié au développement d'un programme permettant de concevoir des circuits logiques combinatoires (CLCs) et d’en calculer la table de vérité (partie bonus), réalisé dans le cadre d'un projet en binômes. Un CLC est un ensemble de composants interreliés, comprenant des entrées de circuit, des sorties de circuit et des portes logiques. Une porte logique est une composante qui reçoit un signal, en entrée, et produit un signal résultat, en sortie.   Le signal produit par la porte logique dépend du signal reçu en entrée et de sa table de vérité. Pour une combinaison donnée de signaux en entrée, la porte produit invariablement une seule et même sortie.
 
 ## Auteurs
 
