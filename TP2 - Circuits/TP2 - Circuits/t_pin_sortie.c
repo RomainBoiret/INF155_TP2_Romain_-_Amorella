@@ -37,7 +37,7 @@ t_pin_sortie* t_pin_sortie_init(void)
 void t_pin_sortie_destroy(t_pin_sortie* pin)
 {
 	free(pin);
-	pin = NULL;
+	assert(pin = NULL);
 }
 
 /*==========================================================*/
