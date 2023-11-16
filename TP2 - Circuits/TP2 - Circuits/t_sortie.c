@@ -44,54 +44,64 @@ void t_sortie_destroy(t_sortie* sortie)
 //Fonction: T_SORTIE_GET_PIN
 t_pin_entree* t_sortie_get_pin(t_sortie* sortie)
 {
-
+	return sortie->pin;
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_RELIER
 int t_sortie_relier(t_sortie* dest, char* nom_composant, const t_pin_sortie* source)
 {
+	//On fait la liaison.
+	t_pin_entree_relier(dest, nom_composant, source);
 
+	if (source == NULL)
+		return 0; //Retourne Faux si la liaison n'a pas été effectué.
+	
+	return 1; //Retourne Vrai si la liaison a bien été effectué.
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_EST_RELIEE
 int t_sortie_est_reliee(t_sortie* sortie)
 {
-
+	return t_pin_entree_est_reliee(sortie);
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_RESET
 void t_sortie_reset(t_sortie* sortie)
 {
-
+	return t_pin_entree_reset(sortie);
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_GET_VALEUR
 int t_sortie_get_valeur(const t_sortie* sortie)
 {
-
+	return t_pin_entree_get_lien(sortie);
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_GET_ID
 int t_sortie_get_id(const t_sortie* sortie)
 {
-
+	return sortie->id; 
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_GET_NOM
 char* t_sortie_get_nom(const t_sortie* sortie)
 {
-
+	return sortie->nom;
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_SERIALISER_LIENS
 void t_sortie_serialiser(const t_sortie* sortie, char* resultat)
 {
-
+	int infocopie = 0; 
+	infocopie += sprintf(resultat, "%d", sortie->id); 
+	infocopie += sprintf(resultat + infocopie, "%s", sortie->nom);
+	infocopie += sprintf(resultat + infocopie, "%d", sortie->pin->valeur);
+	resultat[infocopie] = '\0';
 }
