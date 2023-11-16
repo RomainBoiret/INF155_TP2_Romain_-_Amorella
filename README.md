@@ -1,6 +1,6 @@
-# Jeu de Nim - Projet GitHub en Binômes
+# Circuits logiques combinatoires - Projet GitHub en Binômes
 
-Ce dépôt GitHub est dédié au développement d'un jeu de Nim, réalisé dans le cadre d'un projet en binômes. Le jeu de Nim est un jeu de stratégie simple, mais passionnant, qui peut être joué par deux joueurs. Le but du jeu est de retirer des objets d'un ensemble donné, en respectant certaines règles, jusqu'à ce qu'il ne reste plus d'objets. Le joueur qui retire le dernier objet gagne.
+Ce dépôt GitHub est dédié au développement d'un programme permettant de concevoir des circuits logiques combinatoires (CLCs) et d’en calculer la table de vérité (partie bonus), réalisé dans le cadre d'un projet en binômes. Un CLC est un ensemble de composants interreliés, comprenant des entrées de circuit, des sorties de circuit et des portes logiques. Une porte logique est une composante qui reçoit un signal, en entrée, et produit un signal résultat, en sortie. Le signal produit par la porte logique dépend du signal reçu en entrée et de sa table de vérité. Pour une combinaison donnée de signaux en entrée, la porte produit invariablement une seule et même sortie.
 
 ## Auteurs
 
@@ -9,24 +9,17 @@ Ce dépôt GitHub est dédié au développement d'un jeu de Nim, réalisé dans 
 
 ## Description du Projet
 
-Ce projet consiste à créer une implémentation du jeu de Nim en utilisant le langage de programmation C. Le jeu doit permettre à un joueur d'affronter une IA et d'interagir avec l'interface en ligne de commande.
+Ce projet consiste à créer un programme permettant de concevoir des circuits logiques combinatoires en utilisant le langage de programmation C. 
 
 ## Fonctionnalités
 
-- Affichage du plateau de jeu actuel.
-- Tour à tour des joueurs (un humain l'autre IA) pour retirer des objets de l'ensemble.
-- Validation des coups légaux et gestion des erreurs.
-- Annoncer le vainqueur lorsque la partie est terminée.
-- Possibilité de rejouer une partie.
+1.	Vérifier la validité du circuit conçu : il existe plusieurs critères pour établir la validité d’un circuit et la plupart sont déjà prises en compte par la conception qui vous sera présentée ci-dessous. Cependant, il restera un critère à vérifier et qui sera de s’assurer que toutes les composantes sont reliées entre elles. 
 
-## Comment Jouer
+2.	Propager un signal reçu sur les entrées du circuit pour calculer le signal en sortie du circuit.
 
-Pour jouer au jeu de Nim, suivez ces étapes :
+## Date de création
 
-1. Créez votre dépôt à partir de ce modèle puis clonez votre dépôt sur votre machine locale.
-2. Codez votre jeu, une version d'essai est fournie par le professeur.
-3. Exécutez le programme principal.
-4. Suivez les instructions pour jouer au jeu.
+14 novembre 2023
 
 ## Structure du Projet
 
