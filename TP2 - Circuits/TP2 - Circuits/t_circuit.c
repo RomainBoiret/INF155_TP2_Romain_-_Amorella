@@ -16,3 +16,109 @@
 /*                             DEFINITION DES FONCTIONS                                */
 /***************************************************************************************/
 
+/*==========================================================*/
+//Fonction: T_CIRCUIT_INIT
+t_circuit* t_circuit_init(void)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_DESTROY
+void t_circuit_destroy(t_circuit* circuit)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_AJOUTER_PORTE
+t_porte* t_circuit_ajouter_porte(t_circuit* circuit, e_types_portes le_type, int id, char* nom)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_AJOUTER_ENTREE
+t_entree* t_circuit_ajouter_entree(t_circuit* circuit, int id, char* nom)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_AJOUTER_SORTIE
+t_sortie* t_circuit_ajouter_sortie(t_circuit* circuit, int id, char* nom)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUITEST_VALIDE
+int t_circuit_est_valide(t_circuit* circuit)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_APPLIQUER_SIGNAL
+int t_circuit_appliquer_signal(t_circuit* circuit, int signal[], int nb_bits)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_RESET
+void t_circuit_reset(t_circuit* circuit)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_PROPAGER_SIGNAL
+int t_circuit_propager_signal(t_circuit* circuit)
+{
+
+}
+
+/************************** Les ACCESSEURS ************************************/
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_NB_PORTES
+int t_circuit_get_nb_portes(const t_circuit* circuit)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_GET_PORTE
+t_porte* t_circuit_get_porte(const t_circuit* circuit, int pos)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_GET_NB_SORTIES
+int t_circuit_get_nb_sorties(const t_circuit* circuit)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_GET_SORTIES
+t_sortie* t_circuit_get_sortie(const t_circuit* circuit, int pos)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_GET_NB_ENTREES
+int t_circuit_get_nb_entrees(const t_circuit* circuit)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: T_CIRCUIT_GET_ENTREE
+t_entree* t_circuit_get_entree(const t_circuit* circuit, int pos)
+{
+
+}
