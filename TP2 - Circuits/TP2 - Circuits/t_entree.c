@@ -1,5 +1,5 @@
 /************************************************************************************************************************************************************************************/
-/*  Fichier : T_ENTREE.C																						                                                                */
+/*  Fichier : T_ENTREE.C																						                                                                    */
 /*  Auteurs : BOIRET Romain   BOIR71300401																		                                                                    */
 /*	          LENGA  Amorella LENA91330301																		                                                                    */
 /*  Date de creation : <14 / 11 / 2023>																		                                                                        */
@@ -57,40 +57,52 @@ int t_entree_est_reliee(t_entree* entree)
 //Fonction: T_ENTREE_RESET
 void t_entree_reset(t_entree* entree)
 {
-
+	t_pin_sortie_reset(entree);
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_PROPAGER_SIGNAL
 int t_entree_propager_signal(t_entree* entree)
 {
-
+	return t_pin_sortie_propager_signal(entree);
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_GET_VALEUR
 int t_entree_get_valeur(const t_entree* entree)
 {
-
+	return entree->pin;
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_GET_ID
 int t_entree_get_id(const t_entree* entree)
 {
-
+	return entree->id;
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_GET_NOM
 char* t_entree_get_nom(const t_entree* entree)
 {
-
+	return entree->nom;
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_SERIALISER_LIENS
 void t_entree_serialiser(const t_entree* entree, char* resultat)
 {
+	int infocopied = 0;
 
+	// Copie de l'identifiant numerique de l'entree dans la chaine resultat.
+	infocopied += sprintf(resultat, "%d", entree->id);
+
+	// Copie du nom de l'entree dans la chaine resultat.
+	infocopied += sprintf(resultat + infocopied, "%s", entree->nom);
+
+	// Copie du pin de sortie dans la chaine resultat.
+	infocopied += sprintf(resultat + infocopied, "%d", entree->pin);
+
+	// Fin de la serialisation en ajoutant un caractere de fin de chaine.
+	resultat[infocopied] = '\0';
 }
