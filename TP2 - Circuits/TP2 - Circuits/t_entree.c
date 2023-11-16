@@ -43,14 +43,14 @@ void t_entree_destroy(t_entree* entree)
 //Fonction: T_ENTREE_GET_PIN
 t_pin_sortie* t_entree_get_pin(t_entree* entree)
 {
-
+	return entree->pin;
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_EST_RELIEE
 int t_entree_est_reliee(t_entree* entree)
 {
-
+	return t_pin_sortie_est_reliee(entree);
 }
 
 /*==========================================================*/
