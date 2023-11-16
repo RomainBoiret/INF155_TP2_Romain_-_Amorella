@@ -71,7 +71,7 @@ int t_entree_propager_signal(t_entree* entree)
 //Fonction: T_ENTREE_GET_VALEUR
 int t_entree_get_valeur(const t_entree* entree)
 {
-	return entree->pin;
+	return entree->pin->valeur;
 }
 
 /*==========================================================*/
@@ -100,8 +100,8 @@ void t_entree_serialiser(const t_entree* entree, char* resultat)
 	// Copie du nom de l'entree dans la chaine resultat.
 	infocopied += sprintf(resultat + infocopied, "%s", entree->nom);
 
-	// Copie du pin de sortie dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%d", entree->pin);
+	// Copie de la valeur du signal de l'entree dans la chaine resultat.
+	infocopied += sprintf(resultat + infocopied, "%d", entree->pin->valeur);
 
 	// Fin de la serialisation en ajoutant un caractere de fin de chaine.
 	resultat[infocopied] = '\0';
