@@ -43,14 +43,14 @@ void t_entree_destroy(t_entree* entree)
 //Fonction: T_ENTREE_GET_PIN
 t_pin_sortie* t_entree_get_pin(t_entree* entree)
 {
-
+	return entree->pin;
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_EST_RELIEE
 int t_entree_est_reliee(t_entree* entree)
 {
-
+	return t_pin_sortie_est_reliee(entree);
 }
 
 /*==========================================================*/
@@ -71,7 +71,11 @@ int t_entree_propager_signal(t_entree* entree)
 //Fonction: T_ENTREE_GET_VALEUR
 int t_entree_get_valeur(const t_entree* entree)
 {
+<<<<<<< Updated upstream
 
+=======
+	return entree->pin->valeur;
+>>>>>>> Stashed changes
 }
 
 /*==========================================================*/
@@ -93,4 +97,18 @@ char* t_entree_get_nom(const t_entree* entree)
 void t_entree_serialiser(const t_entree* entree, char* resultat)
 {
 
+<<<<<<< Updated upstream
+=======
+	// Copie de l'identifiant numerique de l'entree dans la chaine resultat.
+	infocopied += sprintf(resultat, "%d", entree->id);
+
+	// Copie du nom de l'entree dans la chaine resultat.
+	infocopied += sprintf(resultat + infocopied, "%s", entree->nom);
+
+	// Copie de la valeur du signal de l'entree dans la chaine resultat.
+	infocopied += sprintf(resultat + infocopied, "%d", entree->pin->valeur);
+
+	// Fin de la serialisation en ajoutant un caractere de fin de chaine.
+	resultat[infocopied] = '\0';
+>>>>>>> Stashed changes
 }
