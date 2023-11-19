@@ -38,7 +38,6 @@ void t_sortie_destroy(t_sortie* sortie)
 	t_pin_entree_destroy(sortie);
 	free(sortie->pin);
 }
-	
 
 /*==========================================================*/
 //Fonction: T_SORTIE_GET_PIN

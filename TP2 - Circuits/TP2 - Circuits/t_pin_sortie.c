@@ -21,13 +21,20 @@
 //Fonction: T_PIN_SORTIE_INIT(constructeur)
 t_pin_sortie* t_pin_sortie_init(void)
 {
+	int i;
+
 	t_pin_sortie* nouv_pin_sortie;
 
 	nouv_pin_sortie = (t_pin_sortie*)malloc(sizeof(t_pin_sortie));
 
-	//Ce pin contient aucune valeur et pas de liaison.
 	nouv_pin_sortie->valeur = INACTIF;
-	nouv_pin_sortie->nb_liaisons = 0;
+	
+	nouv_pin_sortie->nb_liaisons = NULL;
+
+	for (i = 0; i < SORTIE_MAX_LIAISONS; i++)
+	{
+		nouv_pin_sortie->liaisons[i] = NULL;
+	}
 
 	return nouv_pin_sortie;
 }
@@ -53,7 +60,7 @@ void t_pin_sortie_set_valeur(t_pin_sortie* pin, int valeur)
 {
 	if (valeur < INACTIF || valeur > 1)
 	{
-		//Valeur erron�e
+		//Valeur erronee
 		return;
 	}
 	pin->valeur = valeur;
@@ -63,49 +70,46 @@ void t_pin_sortie_set_valeur(t_pin_sortie* pin, int valeur)
 //Fonction: T_PIN_SORTIE_AJOUTER_LIEN
 int t_pin_sortie_ajouter_lien(t_pin_sortie* pin_sortie, t_pin_entree* pin_entree)
 {	
-	int i = 0;
-	
-    //On vérifie d'abord si on n'excède pas le nombre maximal de liens autorisés
+	int i;
+
 	if (pin_sortie->nb_liaisons < SORTIE_MAX_LIAISONS)
-	{  //je supprime la liaison du pin de sortie à lequel elle est présentement liée
+	{
+		for (i = 0; i < (pin_sortie->nb_liaisons); i++)
+		{
+			if (pin_sortie->liaisons[i] == NULL)
+			{
+				pin_sortie->liaisons[i] = pin_entree->nom_liaison;
 
-		t_pin_sortie_supprimer_lien(pin_sortie, pin_entree);
+				pin_sortie->nb_liaisons++;
+				break;
+			}
+		}
 
-		/*Là, le pin d'entrée est libre, on peut tout simplement aller dans le tableau de liaison et on pointe
-		la prochaine case pour y insérer le pin entrée, on AJOUTE un lien*/
-
-		pin_sortie->liaisons[pin_sortie->nb_liaisons] = pin_entree;
-		pin_sortie->nb_liaisons++;
-
-		return 1;
+		return 1; //Retourne Vrai si le lien a bien ete ajoute.
 	}
 
-	return 0;
+	return 0; //Retourne Faux si le lien n'a pas ete ajoute.
 }
 
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_SUPPRIMER_LIEN
 void t_pin_sortie_supprimer_lien(t_pin_sortie* pin_sortie, const t_pin_entree* pin_entree)
 {	
-	int i;
-	int j;
-	
-	//1.je parcours tout mon tableau de 0 à nb de liaisons que j'ai dans cette sortie 
-	for (i = 0; i < pin_sortie->nb_liaisons; i++)
+	int i, j;
+
+	for (i = 0; i < (pin_sortie->nb_liaisons); i++)
 	{
-		//si ce lien a été retrouvé entre le pin de sortie et celui d'entrée
-		if (pin_sortie->liaisons[i] == pin_entree)
+		if (pin_sortie->liaisons[i] == pin_entree->nom_liaison);
 		{
-			// Décalage de toutes les liaisons suivantes vers la gauche à PARTIR DE i, i sera donc supprimé.
-			for (j = i; j < pin_sortie->nb_liaisons - 1; j++)// à partir de i jusqu'à la dernière case
+			for (j = i; j < (pin_sortie->nb_liaisons); j++)
 			{
-				//position actuelle a dorénavant la valeur qui était à droite mtn
 				pin_sortie->liaisons[j] = pin_sortie->liaisons[j + 1];
 			}
-		}
 
-		// Diminution du nombre de liaisons de 1
-		pin_sortie->nb_liaisons--;
+			// Diminution du nombre de liaisons de 1
+			pin_sortie->nb_liaisons--;
+			return;
+		}
 	}
 }
 
@@ -124,7 +128,7 @@ int t_pin_sortie_propager_signal(t_pin_sortie * pin)
 
 	if (pin->valeur == INACTIF || pin->nb_liaisons == 0)
 	{
-		return 0; //Retourne Faux si non propagé.
+		return 0; //Retourne Faux si non propage.
 	}
 
 	for (i = 0; i < pin->nb_liaisons; i++)
@@ -132,7 +136,7 @@ int t_pin_sortie_propager_signal(t_pin_sortie * pin)
 		pin->liaisons[i] = pin->valeur;
 	}
 
-	return 1; //Retourne Vrai si propagé.
+	return 1; //Retourne Vrai si propage.
 }
 
 /*==========================================================*/
