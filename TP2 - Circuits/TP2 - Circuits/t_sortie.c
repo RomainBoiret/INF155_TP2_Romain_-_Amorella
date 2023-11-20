@@ -39,8 +39,6 @@ void t_sortie_destroy(t_sortie* sortie)
 {
 	t_pin_entree_destroy(sortie->pin);
 
-	free(sortie->nom);
-
 	free(sortie);
 }
 
@@ -59,9 +57,9 @@ int t_sortie_relier(t_sortie* dest, char* nom_composant, const t_pin_sortie* sou
 	t_pin_entree_relier(dest->pin, nom_composant, source);
 
 	if (source == NULL)
-		return 0; //Retourne Faux si la liaison n'a pas été effectué.
+		return 0; //Retourne Faux si la liaison n'a pas Ã©tÃ© effectuÃ©.
 	
-	return 1; //Retourne Vrai si la liaison a bien été effectué.
+	return 1; //Retourne Vrai si la liaison a bien Ã©tÃ© effectuÃ©.
 }
 
 /*==========================================================*/
