@@ -26,7 +26,9 @@ t_sortie* t_sortie_init(int id, char* nom)
 	sortie_init = (t_sortie*)malloc(sizeof(t_sortie)); 
 
 	sortie_init->id = id;
-	sortie_init->nom = *nom;
+	sortie_init->nom = nom;
+
+	sortie_init->pin = t_pin_entree_init();
 
 	return sortie_init;
 }
@@ -35,8 +37,11 @@ t_sortie* t_sortie_init(int id, char* nom)
 //Fonction: T_SORTIE_DESTROY
 void t_sortie_destroy(t_sortie* sortie)
 {
-	t_pin_entree_destroy(sortie);
-	free(sortie->pin);
+	t_pin_entree_destroy(sortie->pin);
+
+	free(sortie->nom);
+
+	free(sortie);
 }
 
 /*==========================================================*/
@@ -51,7 +56,7 @@ t_pin_entree* t_sortie_get_pin(t_sortie* sortie)
 int t_sortie_relier(t_sortie* dest, char* nom_composant, const t_pin_sortie* source)
 {
 	//On fait la liaison.
-	t_pin_entree_relier(dest, nom_composant, source);
+	t_pin_entree_relier(dest->pin, nom_composant, source);
 
 	if (source == NULL)
 		return 0; //Retourne Faux si la liaison n'a pas été effectué.
@@ -63,21 +68,21 @@ int t_sortie_relier(t_sortie* dest, char* nom_composant, const t_pin_sortie* sou
 //Fonction: T_SORTIE_EST_RELIEE
 int t_sortie_est_reliee(t_sortie* sortie)
 {
-	return t_pin_entree_est_reliee(sortie);
+	return t_pin_entree_est_reliee(sortie->pin);
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_RESET
 void t_sortie_reset(t_sortie* sortie)
 {
-	return t_pin_entree_reset(sortie);
+	return t_pin_entree_reset(sortie->pin);
 }
 
 /*==========================================================*/
 //Fonction: T_SORTIE_GET_VALEUR
 int t_sortie_get_valeur(const t_sortie* sortie)
 {
-	return t_pin_entree_get_lien(sortie);
+	return t_pin_entree_get_valeur(sortie->pin);
 }
 
 /*==========================================================*/

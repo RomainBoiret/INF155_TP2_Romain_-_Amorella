@@ -43,8 +43,8 @@ t_pin_sortie* t_pin_sortie_init(void)
 //Fonction: T_PIN_SORTIE_DESTROY(Destructeur)
 void t_pin_sortie_destroy(t_pin_sortie* pin)
 {
+	free(pin->liaisons[0]);
 	free(pin);
-	assert(pin = NULL);
 }
 
 /*==========================================================*/
@@ -70,20 +70,10 @@ void t_pin_sortie_set_valeur(t_pin_sortie* pin, int valeur)
 //Fonction: T_PIN_SORTIE_AJOUTER_LIEN
 int t_pin_sortie_ajouter_lien(t_pin_sortie* pin_sortie, t_pin_entree* pin_entree)
 {	
-	int i;
-
 	if (pin_sortie->nb_liaisons < SORTIE_MAX_LIAISONS)
 	{
-		for (i = 0; i < (pin_sortie->nb_liaisons); i++)
-		{
-			if (pin_sortie->liaisons[i] == NULL)
-			{
-				pin_sortie->liaisons[i] = pin_entree->nom_liaison;
-
-				pin_sortie->nb_liaisons++;
-				break;
-			}
-		}
+		pin_sortie->liaisons[pin_sortie->nb_liaisons] = pin_entree;
+		pin_sortie->nb_liaisons++;
 
 		return 1; //Retourne Vrai si le lien a bien ete ajoute.
 	}
@@ -97,18 +87,18 @@ void t_pin_sortie_supprimer_lien(t_pin_sortie* pin_sortie, const t_pin_entree* p
 {	
 	int i, j;
 
-	for (i = 0; i < (pin_sortie->nb_liaisons); i++)
+	for (i = 0; i < SORTIE_MAX_LIAISONS; i++)
 	{
 		if (pin_sortie->liaisons[i] == pin_entree->nom_liaison);
 		{
-			for (j = i; j < (pin_sortie->nb_liaisons); j++)
+			for (j = i; j < SORTIE_MAX_LIAISONS - 1; j++)
 			{
 				pin_sortie->liaisons[j] = pin_sortie->liaisons[j + 1];
 			}
 
 			// Diminution du nombre de liaisons de 1
 			pin_sortie->nb_liaisons--;
-			return;
+			break;
 		}
 	}
 }
@@ -117,7 +107,7 @@ void t_pin_sortie_supprimer_lien(t_pin_sortie* pin_sortie, const t_pin_entree* p
 //Fonction: T_PIN_SORTIE_EST_RELIEE
 int t_pin_sortie_est_reliee(t_pin_sortie * pin)
 {
-return pin->nb_liaisons != NULL;
+	return pin->nb_liaisons != NULL;
 }
 
 /*=========================================================*/
@@ -133,7 +123,7 @@ int t_pin_sortie_propager_signal(t_pin_sortie * pin)
 
 	for (i = 0; i < pin->nb_liaisons; i++)
 	{
-		pin->liaisons[i] = pin->valeur;
+		pin->liaisons[i]->valeur = pin->valeur;
 	}
 
 	return 1; //Retourne Vrai si propage.
