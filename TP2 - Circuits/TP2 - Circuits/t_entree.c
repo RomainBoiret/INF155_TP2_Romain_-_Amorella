@@ -40,7 +40,7 @@ void t_entree_destroy(t_entree* entree)
 	// Detruire le pin_sortie de l'entree.
 	t_pin_sortie_destroy(entree->pin);
 
-	// Liberer la memoire occupé par l'entree.
+	// Liberer la memoire occupÃ© par l'entree.
 	free(entree);
 }
 
