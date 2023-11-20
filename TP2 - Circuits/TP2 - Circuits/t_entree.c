@@ -26,7 +26,9 @@ t_entree* t_entree_init(int id, char* nom)
 	nouv_entree = (t_entree*)malloc(sizeof(t_entree));
 
 	nouv_entree->id = id;
-	nouv_entree->nom = *nom;
+	nouv_entree->nom = nom;
+
+	nouv_entree->pin = t_pin_sortie_init();
 
 	return nouv_entree;
 }
@@ -36,11 +38,12 @@ t_entree* t_entree_init(int id, char* nom)
 void t_entree_destroy(t_entree* entree)
 {
 	// Detruire le pin_sortie de l'entree.
-	t_pin_sortie_destroy(entree);
+	t_pin_sortie_destroy(entree->pin);
+
+	free(entree->pin);
 
 	// Liberer la memoire occupé par l'entree.
-	free(entree->pin);
-	assert(entree->pin == NULL);
+	free(entree);
 }
 
 /*==========================================================*/
@@ -54,28 +57,28 @@ t_pin_sortie* t_entree_get_pin(t_entree* entree)
 //Fonction: T_ENTREE_EST_RELIEE
 int t_entree_est_reliee(t_entree* entree)
 {
-	return t_pin_sortie_est_reliee(entree);
+	return t_pin_sortie_est_reliee(entree->pin);
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_RESET
 void t_entree_reset(t_entree* entree)
 {
-	t_pin_sortie_reset(entree);
+	t_pin_sortie_reset(entree->pin);
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_PROPAGER_SIGNAL
 int t_entree_propager_signal(t_entree* entree)
 {
-	return t_pin_sortie_propager_signal(entree);
+	return t_pin_sortie_propager_signal(entree->pin);
 }
 
 /*==========================================================*/
 //Fonction: T_ENTREE_GET_VALEUR
 int t_entree_get_valeur(const t_entree* entree)
 {
-	return entree->pin->valeur;
+	return t_pin_sortie_get_valeur(entree->pin);
 }
 
 /*==========================================================*/
