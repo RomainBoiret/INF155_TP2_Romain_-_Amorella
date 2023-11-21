@@ -128,28 +128,79 @@ void t_porte_calculer_sorties(t_porte* porte)
 //Fonction: T_PORTE_RELIER
 int t_porte_relier(t_porte* dest, int num_entree, char* nom_sortie, const t_pin_sortie* source)
 {
+	int i;
 
+	//Verifier que le lien existe.
+	for (i = 0; i < (dest->nb_entrees); i++)
+	{
+		if (dest->entrees[i] != num_entree)
+			return 0; //Retourne Faux si le lien n'existe pas.
+	}
+
+	//Relier le lien.
+	t_pin_entree_relier(num_entree, nom_sortie, source);
+
+	return 1; //Retourne Vrai si le lien a ete effectue.
 }
 
 /*==========================================================*/
 //Fonction: T_PORTE_EST_RELIEE
 int t_porte_est_reliee(t_porte* porte)
 {
+	int reli_entree;
+	int reli_sortie;
 
+	//Verifier le(s) entree(s).
+	reli_entree = t_pin_entree_est_reliee(porte->entrees);
+
+	if (reli_entree == 0)
+		return 0; //Retourne Faux si la porte d'entree n'est pas entierement reliee.
+
+	//Verifier la sortie.
+	reli_sortie = t_pin_sortie_est_reliee(porte->sortie);
+
+	if (reli_sortie == 0)
+		return 0; //Retourne Faux si la porte de sortie n'est pas entierement reliee.
+
+	return 1; //Retourne Vrai si la porte est entierement reliee.
 }
 
 /*==========================================================*/
 //Fonction: T_PORTE_RESET
 void t_porte_reset(t_porte* porte)
 {
+	//Mettre les entrees a INACTIF.
+	t_pin_entree_set_valeur(porte->entrees, INACTIF);
 
+	//Mettre la sortie a INACTIF.
+	t_pin_sortie_set_valeur(porte->sortie, INACTIF);
 }
 
 /*==========================================================*/
 //Fonction: T_PORTE_PROPAGER_SIGNAL
 int t_porte_propager_signal(t_porte* porte)
 {
+	/*
+		- si une des entrees est INACTIF -> Return 0 (Faux)
+		- sinon, on calcule la sortie (t_porte_calculer_sortie())
+		-> t_sortie_propager_signal() -> Return resultat
+	*/
+	int i;
 
+	for (i = 0; i < (porte->nb_entrees); i++)
+	{
+		//Verifier qu'une entree n'est pas inactive.
+		if (porte->entrees[i] == INACTIF)
+			return 0; //Retourne Faux si l'entree est inactive.
+
+		//Calculer la sortie.
+		t_porte_calculer_sorties(porte->sortie);
+
+		//Propager le signal.
+		t_pin_sortie_propager_signal(porte->sortie);
+	}
+
+	return 1; //Retourne Vrai si toutes les entrees ont recu un signal.
 }
 
 /************************** Les ACCESSEURS ************************************/
