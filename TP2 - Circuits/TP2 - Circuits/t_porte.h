@@ -28,7 +28,7 @@ typedef struct t_pin_sortie t_pin_sortie;
 								//en nombre de caractères
 
 /*
-Énumération: E_TYPES_PORTES
+Énumération: E_TYPES_PORTES b
 Description: Énumère les types de portes permis 
 */
 typedef enum e_types_portes { PORTE_ET, PORTE_OU, PORTE_NOT, PORTE_XOR } e_types_portes;

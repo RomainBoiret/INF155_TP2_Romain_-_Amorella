@@ -74,14 +74,54 @@ t_porte* t_porte_init(int id, e_types_portes type, char* nom)
 //Fonction: T_PORTE_DESTROY
 void t_porte_destroy(t_porte* porte)
 {
-
+	t_pin_sortie_destroy(porte->sortie);
+	t_pin_entree_destroy(porte->entrees);
+	free(porte);
 }
 
 /*==========================================================*/
 //Fonction: T_PORTE_CALCULER_SORTIES
 void t_porte_calculer_sorties(t_porte* porte)
 {
+	int pin_entree0;
+	int pin_entree1;
+	int resultat;
+	
+	pin_entree0= t_pin_entree_get_valeur(porte->entrees[0]);
 
+	if (porte->nb_entrees == MAX_ENTREES_PORTE)
+	{
+		pin_entree1 = t_pin_entree_get_valeur(porte->entrees[1]);
+	}
+
+	switch (porte->type)
+	{
+		case PORTE_ET:
+		{
+			resultat = pin_entree0 & pin_entree1;
+			break;
+		}
+
+		case PORTE_OU:
+		{
+			resultat = pin_entree0 | pin_entree1;
+			break;
+		}
+
+		case PORTE_XOR:
+		{
+			resultat = pin_entree0 ^ pin_entree1;
+			break;
+		}
+
+		case PORTE_NOT:
+		{
+			resultat = !pin_entree0 ;
+			break;
+		}
+	}
+
+	t_pin_sortie_set_valeur(porte, resultat);
 }
 
 /*==========================================================*/
