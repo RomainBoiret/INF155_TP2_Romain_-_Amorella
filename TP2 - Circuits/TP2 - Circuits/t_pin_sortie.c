@@ -43,7 +43,6 @@ t_pin_sortie* t_pin_sortie_init(void)
 //Fonction: T_PIN_SORTIE_DESTROY(Destructeur)
 void t_pin_sortie_destroy(t_pin_sortie* pin)
 {
-	free(pin->liaisons[0]);
 	free(pin);
 }
 
