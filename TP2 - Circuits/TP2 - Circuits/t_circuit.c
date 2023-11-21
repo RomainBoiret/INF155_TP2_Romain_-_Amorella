@@ -1,5 +1,5 @@
 /************************************************************************************************************************************************************************************/
-/*  Fichier : T_CIRCUIT.C																						                                                                */
+/*  Fichier : T_CIRCUIT.C																						                                                                    */
 /*  Auteurs : BOIRET Romain   BOIR71300401																		                                                                    */
 /*	          LENGA  Amorella LENA91330301																		                                                                    */
 /*  Date de creation : <14 / 11 / 2023>																		                                                                        */
@@ -20,14 +20,43 @@
 //Fonction: T_CIRCUIT_INIT
 t_circuit* t_circuit_init(void)
 {
+	int i;
 
+	t_circuit* nouv_circuit;
+
+	nouv_circuit = (t_circuit*)malloc(sizeof(t_circuit));
+
+	nouv_circuit->nb_entrees = NULL;
+	nouv_circuit->nb_sorties = NULL;
+	nouv_circuit->nb_portes = NULL;
+
+	for (i = 0; i < MAX_ENTREES; i++)
+	{
+		nouv_circuit->entrees[i] = NULL;
+	}
+
+	for (i = 0; i < MAX_SORTIES; i++)
+	{
+		nouv_circuit->sorties[i] = NULL;
+	}
+
+	for (i = 0; i < CIRCUIT_MAX_PORTES; i++)
+	{
+		nouv_circuit->portes[i] = NULL;
+	}
+
+	return	nouv_circuit;
 }
 
 /*==========================================================*/
 //Fonction: T_CIRCUIT_DESTROY
 void t_circuit_destroy(t_circuit* circuit)
 {
+	free(circuit->entrees);
+	free(circuit->sorties);
+	free(circuit->portes);
 
+	free(circuit);
 }
 
 /*==========================================================*/

@@ -89,7 +89,7 @@ void t_pin_sortie_supprimer_lien(t_pin_sortie* pin_sortie, const t_pin_entree* p
 
 	for (i = 0; i < SORTIE_MAX_LIAISONS; i++)
 	{
-		if (pin_sortie->liaisons[i] == pin_entree->nom_liaison);
+		if (pin_sortie->liaisons[i] == pin_entree);
 		{
 			for (j = i; j < SORTIE_MAX_LIAISONS - 1; j++)
 			{
