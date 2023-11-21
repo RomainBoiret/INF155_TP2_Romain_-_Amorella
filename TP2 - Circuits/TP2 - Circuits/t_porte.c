@@ -13,14 +13,61 @@
 #include "t_porte.h"
 
 /***************************************************************************************/
+/*                             DECLARATION DES FONCTIONS PRIVES                        */
+/***************************************************************************************/
+
+static void init_entree(t_porte * nouv_porte, e_types_portes type);
+
+/***************************************************************************************/
 /*                             DEFINITION DES FONCTIONS                                */
 /***************************************************************************************/
 
 /*==========================================================*/
 //Fonction: T_PORTE_INIT
+static void init_entree(t_porte * nouv_porte, e_types_portes type)
+{
+	int i;
+
+	nouv_porte->type = type;
+
+	switch (type)
+	{
+		case PORTE_ET: case PORTE_OU: case PORTE_XOR:
+		{
+			nouv_porte->nb_entrees = MAX_ENTREES_PORTE;
+
+			for (i = 0; i < (nouv_porte->nb_entrees); i++)
+			{
+				nouv_porte->entrees[i] = t_pin_entree_init();
+			}
+			break;
+		}
+
+		case PORTE_NOT:
+		{
+			nouv_porte->nb_entrees = 1;
+
+			nouv_porte->entrees[0] = t_pin_entree_init();
+			break;
+		}
+	}
+}
+
 t_porte* t_porte_init(int id, e_types_portes type, char* nom)
 {
+	t_porte* nouv_porte;
 
+	nouv_porte = (t_porte*)malloc(sizeof(t_porte));
+
+	nouv_porte->id = id;
+	nouv_porte->nom = nom;
+	nouv_porte->type = type;
+
+	init_entree(nouv_porte, type);
+
+	nouv_porte->sortie = t_pin_sortie_init();
+
+	return nouv_porte;
 }
 
 /*==========================================================*/
