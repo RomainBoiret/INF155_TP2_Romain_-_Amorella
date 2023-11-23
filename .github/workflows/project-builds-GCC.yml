@@ -1,0 +1,25 @@
+name: Build avec GCC
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up GCC
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install GCC
+      run: sudo apt-get install gcc
+
+    - name: Compile C code
+      run: gcc -o tp2 main_test_partie1.c t_circuit.c t_entree.c t_pin_entree.c t_pin_sortie.c t_porte.c t_sortie.c
