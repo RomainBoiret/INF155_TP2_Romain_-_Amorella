@@ -102,8 +102,12 @@ char* t_sortie_get_nom(const t_sortie* sortie)
 void t_sortie_serialiser(const t_sortie* sortie, char* resultat)
 {
 	int infocopie = 0; 
-	infocopie += sprintf(resultat, "%d", sortie->id); 
-	infocopie += sprintf(resultat + infocopie, "%s", sortie->nom);
-	infocopie += sprintf(resultat + infocopie, "%d", sortie->pin->valeur);
+
+	infocopie += sprintf(resultat, "%d", t_sortie_get_id(sortie));
+
+	infocopie += sprintf(resultat + infocopie, "%s", t_sortie_get_nom(sortie));
+
+	infocopie += sprintf(resultat + infocopie, "%d", t_sortie_get_valeur(sortie));
+
 	resultat[infocopie] = '\0';
 }
