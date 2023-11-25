@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.0)
 project(tp2)
 
 # Add the source files
-file(GLOB SOURCES "TP2 - Circuits/TP2 - Circuits/.c" "TP2 - Circuits/TP2 - Circuits/.h")
+file(GLOB SOURCES "TP2 - Circuits/TP2 - Circuits/*.c" "TP2 - Circuits/TP2 - Circuits/*.h")
 
 # Add an executable target
 add_executable(my_executable ${SOURCES})
