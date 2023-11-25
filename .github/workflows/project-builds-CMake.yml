@@ -1,0 +1,26 @@
+name: Compilation avec CMake
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Recuperation du depot
+      uses: actions/checkout@v2
+
+    - name: Configuration de CMake
+      uses: jwlawson/actions-setup-cmake@v1.13
+      with:
+        cmake-version: '3.21.x'
+
+    - name: Compilation du projet C
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make
