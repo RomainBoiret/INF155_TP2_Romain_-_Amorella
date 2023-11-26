@@ -22,6 +22,4 @@ jobs:
       run: sudo apt-get install gcc
 
     - name: Compilation du code C
-      run: |
-        cd "TP2 - Circuits/TP2 - Circuits/"
-        gcc -o tp2 main_test_partie1.c t_circuit.c t_entree.c t_pin_entree.c t_pin_sortie.c t_porte.c t_sortie.c
+      run: gcc -o tp2 "TP2 - Circuits/TP2 - Circuits/*.c"
