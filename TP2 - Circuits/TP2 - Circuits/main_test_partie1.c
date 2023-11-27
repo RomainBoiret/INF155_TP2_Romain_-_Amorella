@@ -192,5 +192,6 @@ int main(void)
 
 	t_circuit_destroy(circuit);
 	system("pause");
+
 	return EXIT_SUCCESS;
 }
