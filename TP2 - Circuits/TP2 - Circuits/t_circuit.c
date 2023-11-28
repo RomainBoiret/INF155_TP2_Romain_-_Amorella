@@ -24,9 +24,9 @@ t_circuit* t_circuit_init(void)
 
 	nouv_circuit = (t_circuit*)malloc(sizeof(t_circuit));
 
-	nouv_circuit->nb_entrees = NULL;
-	nouv_circuit->nb_sorties = NULL;
-	nouv_circuit->nb_portes = NULL;
+	nouv_circuit->nb_entrees = 0;
+	nouv_circuit->nb_sorties = 0;
+	nouv_circuit->nb_portes = 0;
 
 	for (int i = 0; i < MAX_ENTREES; i++)
 	{
@@ -50,6 +50,21 @@ t_circuit* t_circuit_init(void)
 //Fonction: T_CIRCUIT_DESTROY
 void t_circuit_destroy(t_circuit* circuit)
 {
+	for (int i = 0; i < circuit->nb_entrees; i++)
+	{
+		t_entree_destroy(circuit->entrees[i]);
+	}
+
+	for (int i = 0; i < circuit->nb_sorties; i++)
+	{
+		t_sortie_destroy(circuit->sorties[i]);
+	}
+
+	for (int i = 0; i < circuit->nb_portes; i++)
+	{
+		t_porte_destroy(circuit->portes[i]);
+	}
+
 	free(circuit);
 }
 
@@ -66,7 +81,7 @@ t_porte* t_circuit_ajouter_porte(t_circuit* circuit, e_types_portes le_type, int
 		circuit->portes[circuit->nb_portes] = t_porte_init(id, le_type, nom);
 		circuit->nb_portes++;
 
-		return (circuit->portes[circuit->nb_portes]); //Retourne Vrai si le lien a bien ete ajoute.
+		return (circuit->portes[circuit->nb_portes - 1]); //Retourne Vrai si le lien a bien ete ajoute.
 	}
 
 	return NULL; //Retourne Faux si le lien n'a pas ete ajoute.
@@ -83,7 +98,7 @@ t_entree* t_circuit_ajouter_entree(t_circuit* circuit, int id, char* nom)
 		circuit->entrees[circuit->nb_entrees] = t_entree_init(id, nom);
 		circuit->nb_entrees++;
 
-		return (circuit->entrees[circuit->nb_entrees]); //Retourne Vrai si le lien a bien ete ajoute.
+		return (circuit->entrees[circuit->nb_entrees - 1]); //Retourne Vrai si le lien a bien ete ajoute.
 	}
 
 	return NULL; //Retourne Faux si le lien n'a pas ete ajoute.
@@ -100,7 +115,7 @@ t_sortie* t_circuit_ajouter_sortie(t_circuit* circuit, int id, char* nom)
 		circuit-> sorties[circuit->nb_sorties] = t_sortie_init(id, nom);
 		circuit->nb_sorties++;
 
-		return (circuit->sorties[circuit->nb_sorties]); //Retourne Vrai si le lien a bien ete ajoute. //pas certaine de ça
+		return (circuit->sorties[circuit->nb_sorties - 1]); //Retourne Vrai si le lien a bien ete ajoute. //pas certaine de ça
 	}
 
 	return NULL; //Retourne Faux si le lien n'a pas ete ajoute.
@@ -173,8 +188,7 @@ void t_circuit_reset(t_circuit* circuit)
 //Fonction: T_CIRCUIT_PROPAGER_SIGNAL
 int t_circuit_propager_signal(t_circuit* circuit)
 {
-	//à completer 
-
+	//a completer.
 }
 
 /************************** Les ACCESSEURS ************************************/

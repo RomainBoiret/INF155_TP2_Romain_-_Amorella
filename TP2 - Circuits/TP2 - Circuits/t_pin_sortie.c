@@ -21,17 +21,15 @@
 //Fonction: T_PIN_SORTIE_INIT(constructeur)
 t_pin_sortie* t_pin_sortie_init(void)
 {
-	int i;
-
 	t_pin_sortie* nouv_pin_sortie;
 
 	nouv_pin_sortie = (t_pin_sortie*)malloc(sizeof(t_pin_sortie));
 
 	nouv_pin_sortie->valeur = INACTIF;
 	
-	nouv_pin_sortie->nb_liaisons = NULL;
+	nouv_pin_sortie->nb_liaisons = 0;
 
-	for (i = 0; i < SORTIE_MAX_LIAISONS; i++)
+	for (int i = 0; i < SORTIE_MAX_LIAISONS; i++)
 	{
 		nouv_pin_sortie->liaisons[i] = NULL;
 	}
@@ -76,21 +74,18 @@ int t_pin_sortie_ajouter_lien(t_pin_sortie* pin_sortie, t_pin_entree* pin_entree
 
 		return 1; //Retourne Vrai si le lien a bien ete ajoute.
 	}
-
 	return 0; //Retourne Faux si le lien n'a pas ete ajoute.
 }
 
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_SUPPRIMER_LIEN
 void t_pin_sortie_supprimer_lien(t_pin_sortie* pin_sortie, const t_pin_entree* pin_entree)
-{	
-	int i, j;
-
-	for (i = 0; i < SORTIE_MAX_LIAISONS; i++)
+{
+	for (int i = 0; i < pin_sortie->nb_liaisons; i++)
 	{
-		if (pin_sortie->liaisons[i] == pin_entree);
+		if (pin_sortie->liaisons[i] == pin_entree) //; <-- JE T'AI TROUVE MOUHAHAHAHAHA
 		{
-			for (j = i; j < SORTIE_MAX_LIAISONS - 1; j++)
+			for (int j = i; j < pin_sortie->nb_liaisons - 1; j++)
 			{
 				pin_sortie->liaisons[j] = pin_sortie->liaisons[j + 1];
 			}
@@ -106,21 +101,19 @@ void t_pin_sortie_supprimer_lien(t_pin_sortie* pin_sortie, const t_pin_entree* p
 //Fonction: T_PIN_SORTIE_EST_RELIEE
 int t_pin_sortie_est_reliee(t_pin_sortie * pin)
 {
-	return pin->nb_liaisons != NULL;
+	return pin->nb_liaisons != 0;
 }
 
 /*=========================================================*/
 //Fonction: T_PIN_SORTIE_PROPAGER_SIGNAL
 int t_pin_sortie_propager_signal(t_pin_sortie * pin)
 {
-	int i;
-
 	if (pin->valeur == INACTIF || pin->nb_liaisons == 0)
 	{
 		return 0; //Retourne Faux si non propage.
 	}
 
-	for (i = 0; i < pin->nb_liaisons; i++)
+	for (int i = 0; i < pin->nb_liaisons; i++)
 	{
 		pin->liaisons[i]->valeur = pin->valeur;
 	}

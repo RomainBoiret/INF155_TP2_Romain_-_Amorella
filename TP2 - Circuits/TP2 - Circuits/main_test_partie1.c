@@ -116,6 +116,7 @@ int main(void)
 //TESTS ajoutés par nous
 
 //TEST T_PORTE_INIT
+/*
 	t_porte* porte;
 	porte = t_porte_init(0, PORTE_NOT, "P0");
 	printf("\nNombres d'entrees de la porte: %d", porte->nb_entrees);
@@ -152,7 +153,7 @@ int main(void)
 	//Test accès au type
 	e_types_portes type = t_porte_get_type(porte);
 	printf("\nType: %d", type);
-
+*/
 	/******************************************************/
 
 	//libérer les 4 allocations
@@ -161,12 +162,11 @@ int main(void)
 	t_sortie_destroy(sortie0);
 	t_sortie_destroy(sortie1);
 
-/*
 	//déclaration des variables
 	int signal[3];		//les 3 valeurs pour les 3 entrées
 	t_circuit* circuit;   //le circuit complet
 	circuit = t_circuit_init();   //Création du circuit
-	construire_circuit(circuit);
+	//construire_circuit(circuit);
 
 	//Vérification de la validité du circuit
 	if (t_circuit_est_valide(circuit)) {
@@ -192,6 +192,6 @@ int main(void)
 
 	t_circuit_destroy(circuit);
 	system("pause");
+
 	return EXIT_SUCCESS;
-*/
 }

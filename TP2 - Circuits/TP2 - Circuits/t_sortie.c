@@ -73,7 +73,7 @@ int t_sortie_est_reliee(t_sortie* sortie)
 //Fonction: T_SORTIE_RESET
 void t_sortie_reset(t_sortie* sortie)
 {
-	return t_pin_entree_reset(sortie->pin);
+	t_pin_entree_reset(sortie->pin);
 }
 
 /*==========================================================*/
