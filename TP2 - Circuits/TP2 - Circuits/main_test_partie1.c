@@ -151,14 +151,6 @@ int main(void)
 	printf("Sortie %d = %d\n", t_sortie_get_id(sortie0), t_sortie_get_valeur(sortie0));
 	printf("Sortie %d = %d\n", t_sortie_get_id(sortie1), t_sortie_get_valeur(sortie1));
 
-	//libérer les 4 allocations
-
-	//t_entree_destroy(entree0);
-	//t_entree_destroy(entree1);
-	//t_sortie_destroy(sortie0);
-	//t_sortie_destroy(sortie1);
-	//system("pause");
-
 	/***************************************************/
 
 	//déclaration des variables
@@ -190,6 +182,13 @@ int main(void)
 	else  printf("Erreur lors de la propagation du signal.\n");
 
 	t_circuit_destroy(circuit);
+
+	//libérer les 4 allocations
+	t_entree_destroy(entree0);
+	t_entree_destroy(entree1);
+	t_sortie_destroy(sortie0);
+	t_sortie_destroy(sortie1);
+
 	//system("pause");
 
 	return EXIT_SUCCESS;

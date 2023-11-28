@@ -1,5 +1,5 @@
-#ifndef FILESLIB_H_
-#define FILESLIB_H_
+#ifndef FILES_PORTES_H_
+#define FILES_PORTES_H_
 
 //definitions pour la librairie de fonctions FILESLIB.CPP
 #include "t_porte.h"
