@@ -130,23 +130,22 @@ int t_porte_relier(t_porte* dest, int num_entree, char* nom_sortie, const t_pin_
 {
 	//Verifier que le lien existe.
 	if (num_entree > (dest->nb_entrees) - 1)
-		return 0; //Retourne Faux si le lien n'existe pas.
+		return FAUX; //Retourne Faux si le lien n'existe pas.
 
 	//Relier le lien.
 	t_pin_entree_relier(dest->entrees[num_entree], nom_sortie, source);
 
-	return 1; //Retourne Vrai si le lien a ete effectue.
+	return VRAI; //Retourne Vrai si le lien a ete effectue.
 }
 
 /*==========================================================*/
 //Fonction: T_PORTE_EST_RELIEE
 int t_porte_est_reliee(t_porte* porte)
 {
-	int i;
 	int reli_sortie;
 
 	//Verifier le(s) entree(s).
-	for (i = 0; i < porte->nb_entrees; i++)
+	for (int i = 0; i < porte->nb_entrees; i++)
 	{
 		if (t_pin_entree_est_reliee(porte->entrees[i]) == 0)
 			return 0; //Retourne Faux si la porte d'entree n'est pas entierement reliee.
@@ -165,10 +164,9 @@ int t_porte_est_reliee(t_porte* porte)
 //Fonction: T_PORTE_RESET
 void t_porte_reset(t_porte* porte)
 {
-	int i;
 
 	//Mettre les entrees a INACTIF.
-	for (i = 0; i < porte->nb_entrees; i++)
+	for (int i = 0; i < porte->nb_entrees; i++)
 	{
 		t_pin_entree_set_valeur(porte->entrees[i], INACTIF);
 	}
@@ -181,13 +179,12 @@ void t_porte_reset(t_porte* porte)
 //Fonction: T_PORTE_PROPAGER_SIGNAL
 int t_porte_propager_signal(t_porte* porte)
 {
-	int i;
 
-	for (i = 0; i < (porte->nb_entrees); i++)
+	for (int i = 0; i < (porte->nb_entrees); i++)
 	{
 		//Verifier qu'une entree n'est pas inactive.
 		if (porte->entrees[i]->valeur == INACTIF)
-			return 0; //Retourne Faux si l'entree est inactive.
+			return FAUX; //Retourne Faux si l'entree est inactive.
 	}
 
 	//Calculer la sortie.
