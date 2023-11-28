@@ -25,6 +25,9 @@ Dernière modification: Eric Thé, 2023-11-12
 
 //Le nombre maximal de pins d'entrées auquels une sortie peut être connectée
 #define SORTIE_MAX_LIAISONS 10
+//Constante true et false 
+#define VRAI 1
+#define FAUX 0
 
 typedef struct t_pin_entree t_pin_entree;
 typedef struct t_circuit t_circuit;

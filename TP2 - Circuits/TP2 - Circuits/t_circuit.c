@@ -23,7 +23,7 @@ t_circuit* t_circuit_init(void)
 	t_circuit* nouv_circuit;
 
 	nouv_circuit = (t_circuit*)malloc(sizeof(t_circuit));
-
+	//les trois compteurs sont mis à zéro
 	nouv_circuit->nb_entrees = 0;
 	nouv_circuit->nb_sorties = 0;
 	nouv_circuit->nb_portes = 0;
@@ -72,19 +72,18 @@ void t_circuit_destroy(t_circuit* circuit)
 //Fonction: T_CIRCUIT_AJOUTER_PORTE
 t_porte* t_circuit_ajouter_porte(t_circuit* circuit, e_types_portes le_type, int id, char* nom)
 {
-	//1. Je m'assure que le nombre de portes n'est ne dépasse pas le nombre permis
-
+	//1. Le nombre de portes ne doit pas dépasser pas le nombre permis
 	if (circuit->nb_portes < CIRCUIT_MAX_PORTES)
 	{
-		//je crée la nouvelle porte en appelant la fonction qui initialise t_porte
-
-		circuit->portes[circuit->nb_portes] = t_porte_init(id, le_type, nom);
+		//Création de la nouvelle porte avec appel de fonction
+		t_porte* nouv_porte = t_porte_init(id, le_type, nom);
+		circuit->portes[circuit->nb_portes] = nouv_porte;
 		circuit->nb_portes++;
 
-		return (circuit->portes[circuit->nb_portes - 1]); //Retourne Vrai si le lien a bien ete ajoute.
+		return nouv_porte; //Retourne Vrai si le lien a bien ete ajoute.
 	}
 
-	return NULL; //Retourne Faux si le lien n'a pas ete ajoute.
+	return NULL; //Retourne NULL si le lien n'a pas ete ajoute.
 }
 
 /*==========================================================*/
@@ -93,15 +92,16 @@ t_entree* t_circuit_ajouter_entree(t_circuit* circuit, int id, char* nom)
 {
 	if (circuit->nb_entrees < MAX_ENTREES)
 	{
-		//je crée la nouvelle porte en appelant la fonction qui initialise t_porte
+		//Création de la nouvelle entrée si condition vraie 
 
-		circuit->entrees[circuit->nb_entrees] = t_entree_init(id, nom);
+		t_entree* nouv_entree = t_entree_init(id, nom);
+		circuit->entrees[circuit->nb_entrees] = nouv_entree;
 		circuit->nb_entrees++;
-
-		return (circuit->entrees[circuit->nb_entrees - 1]); //Retourne Vrai si le lien a bien ete ajoute.
+		//Retourne Vrai si le lien a bien ete ajoute.
+		return (nouv_entree);
 	}
 
-	return NULL; //Retourne Faux si le lien n'a pas ete ajoute.
+	return NULL; //Retourne NULL si le lien n'a pas ete ajoute.
 }
 
 /*==========================================================*/
@@ -110,15 +110,15 @@ t_sortie* t_circuit_ajouter_sortie(t_circuit* circuit, int id, char* nom)
 {
 	if (circuit->nb_sorties < MAX_SORTIES)
 	{
-		//je crée la nouvelle porte en appelant la fonction qui initialise t_porte
-
-		circuit-> sorties[circuit->nb_sorties] = t_sortie_init(id, nom);
+		//Création de la nouvelle sortie si condition vraie
+		t_sortie* nouv_sortie = t_sortie_init(id, nom);
+		circuit->sorties[circuit->nb_sorties] = nouv_sortie;
 		circuit->nb_sorties++;
 
-		return (circuit->sorties[circuit->nb_sorties - 1]); //Retourne Vrai si le lien a bien ete ajoute. //pas certaine de ça
+		return (nouv_sortie);
 	}
 
-	return NULL; //Retourne Faux si le lien n'a pas ete ajoute.
+	return NULL; //Retourne NULL si le lien n'a pas ete ajoute.
 }
 
 /*==========================================================*/
@@ -128,22 +128,22 @@ int t_circuit_est_valide(t_circuit* circuit)
 	for (int i = 0; i < circuit->nb_entrees; i++)
 	{
 		if (!t_entree_est_reliee(circuit->entrees[i]))
-			return 0;
+			return FAUX;
 	}
-	
+
 	for (int i = 0; i < circuit->nb_sorties; i++)
 	{
 		if (!t_sortie_est_reliee(circuit->sorties[i]))
-			return 0;
+			return FAUX;
 	}
-	
+
 	for (int i = 0; i < circuit->nb_portes; i++)
 	{
 		if (!t_porte_est_reliee(circuit->portes[i]))
-			return 0;
+			return FAUX;
 	}
 
-	return 1;
+	return VRAI;
 }
 
 /*==========================================================*/
@@ -158,10 +158,10 @@ int t_circuit_appliquer_signal(t_circuit* circuit, int signal[], int nb_bits)
 			t_pin_sortie_set_valeur(circuit->entrees[i]->pin, signal[i]);
 		}
 
-		return 1;
+		return VRAI;
 	}
 
-	return 0;
+	return FAUX;
 }
 
 /*==========================================================*/
@@ -204,7 +204,12 @@ int t_circuit_get_nb_portes(const t_circuit* circuit)
 //Fonction: T_CIRCUIT_GET_PORTE
 t_porte* t_circuit_get_porte(const t_circuit* circuit, int pos)
 {
-	return circuit->portes[pos];
+	if (pos > INACTIF && pos < CIRCUIT_MAX_PORTES)
+	{
+		return circuit->sorties[pos];
+	}
+
+	else return NULL;
 }
 
 /*==========================================================*/
@@ -218,13 +223,18 @@ int t_circuit_get_nb_sorties(const t_circuit* circuit)
 //Fonction: T_CIRCUIT_GET_SORTIES
 t_sortie* t_circuit_get_sortie(const t_circuit* circuit, int pos)
 {
-	return circuit->sorties[pos];
+	if (pos > INACTIF && pos < MAX_SORTIES)
+	{
+		return circuit->sorties[pos];
+	}
+
+	else return NULL;
 }
 
 /*==========================================================*/
 //Fonction: T_CIRCUIT_GET_NB_ENTREES
 int t_circuit_get_nb_entrees(const t_circuit* circuit)
-{
+{	
 	return circuit->nb_entrees;
 }
 
@@ -232,5 +242,11 @@ int t_circuit_get_nb_entrees(const t_circuit* circuit)
 //Fonction: T_CIRCUIT_GET_ENTREE
 t_entree* t_circuit_get_entree(const t_circuit* circuit, int pos)
 {
-	return circuit->entrees[pos];
+	if (pos > INACTIF && pos < MAX_ENTREES)
+	{
+		return circuit->entrees[pos];
+	}
+
+	else return NULL;
 }
+

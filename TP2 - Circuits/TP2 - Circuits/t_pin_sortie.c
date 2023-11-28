@@ -66,15 +66,15 @@ void t_pin_sortie_set_valeur(t_pin_sortie* pin, int valeur)
 /*==========================================================*/
 //Fonction: T_PIN_SORTIE_AJOUTER_LIEN
 int t_pin_sortie_ajouter_lien(t_pin_sortie* pin_sortie, t_pin_entree* pin_entree)
-{	
+{
 	if (pin_sortie->nb_liaisons < SORTIE_MAX_LIAISONS)
 	{
 		pin_sortie->liaisons[pin_sortie->nb_liaisons] = pin_entree;
 		pin_sortie->nb_liaisons++;
 
-		return 1; //Retourne Vrai si le lien a bien ete ajoute.
+		return VRAI;
 	}
-	return 0; //Retourne Faux si le lien n'a pas ete ajoute.
+	return FAUX;
 }
 
 /*==========================================================*/
@@ -118,7 +118,7 @@ int t_pin_sortie_propager_signal(t_pin_sortie * pin)
 		pin->liaisons[i]->valeur = pin->valeur;
 	}
 
-	return 1; //Retourne Vrai si propage.
+	return VRAI; //Retourne Vrai si propage.
 }
 
 /*==========================================================*/

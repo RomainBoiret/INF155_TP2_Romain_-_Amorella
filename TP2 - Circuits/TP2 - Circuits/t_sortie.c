@@ -57,9 +57,9 @@ int t_sortie_relier(t_sortie* dest, char* nom_composant, const t_pin_sortie* sou
 	t_pin_entree_relier(dest->pin, nom_composant, source);
 
 	if (source == NULL)
-		return 0; //Retourne Faux si la liaison n'a pas été effectué.
+		return FAUX; 
 	
-	return 1; //Retourne Vrai si la liaison a bien été effectué.
+	return VRAI;
 }
 
 /*==========================================================*/
