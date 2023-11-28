@@ -34,7 +34,7 @@ static void init_entree(t_porte * nouv_porte, e_types_portes type)
 		{
 			nouv_porte->nb_entrees = MAX_ENTREES_PORTE;
 
-			for (int i = 0; i < (nouv_porte->nb_entrees); i++)
+			for (int i = 0; i < nouv_porte->nb_entrees; i++)
 			{
 				nouv_porte->entrees[i] = t_pin_entree_init();
 			}
@@ -72,11 +72,14 @@ t_porte* t_porte_init(int id, e_types_portes type, char* nom)
 //Fonction: T_PORTE_DESTROY
 void t_porte_destroy(t_porte* porte)
 {
+	for (int i = 0; i < porte->nb_entrees; i++)
+	{
+		t_pin_entree_destroy(porte->entrees[i]);
+	}
+
 	t_pin_sortie_destroy(porte->sortie);
-	t_pin_entree_destroy(porte->entrees);
 	free(porte);
 }
-
 /*==========================================================*/
 //Fonction: T_PORTE_CALCULER_SORTIES
 void t_porte_calculer_sorties(t_porte* porte)
@@ -87,7 +90,7 @@ void t_porte_calculer_sorties(t_porte* porte)
 	
 	pin_entree0= t_pin_entree_get_valeur(porte->entrees[0]);
 
-	if (porte->nb_entrees == MAX_ENTREES_PORTE)
+	if (porte->type != PORTE_NOT)
 	{
 		pin_entree1 = t_pin_entree_get_valeur(porte->entrees[1]);
 	}
@@ -119,7 +122,7 @@ void t_porte_calculer_sorties(t_porte* porte)
 		}
 	}
 
-	t_pin_sortie_set_valeur(porte, resultat);
+	t_pin_sortie_set_valeur(porte->sortie, resultat);
 }
 
 /*==========================================================*/
@@ -145,24 +148,23 @@ int t_porte_est_reliee(t_porte* porte)
 	//Verifier le(s) entree(s).
 	for (int i = 0; i < porte->nb_entrees; i++)
 	{
-		if (t_pin_entree_est_reliee(porte->entrees[i]) == 0)
-			return 0; //Retourne Faux si la porte d'entree n'est pas entierement reliee.
+		if (t_pin_entree_est_reliee(porte->entrees[i]) == FAUX)
+			return FAUX; //Retourne Faux si la porte d'entree n'est pas entierement reliee.
 	}
 
 	//Verifier la sortie.
 	reli_sortie = t_pin_sortie_est_reliee(porte->sortie);
 
-	if (reli_sortie == 0)
-		return 0; //Retourne Faux si la porte de sortie n'est pas entierement reliee.
+	if (reli_sortie == FAUX)
+		return FAUX; //Retourne Faux si la porte de sortie n'est pas entierement reliee.
 
-	return 1; //Retourne Vrai si la porte est entierement reliee.
+	return VRAI; //Retourne Vrai si la porte est entierement reliee.
 }
 
 /*==========================================================*/
 //Fonction: T_PORTE_RESET
 void t_porte_reset(t_porte* porte)
 {
-
 	//Mettre les entrees a INACTIF.
 	for (int i = 0; i < porte->nb_entrees; i++)
 	{
@@ -177,11 +179,10 @@ void t_porte_reset(t_porte* porte)
 //Fonction: T_PORTE_PROPAGER_SIGNAL
 int t_porte_propager_signal(t_porte* porte)
 {
-
 	for (int i = 0; i < (porte->nb_entrees); i++)
 	{
 		//Verifier qu'une entree n'est pas inactive.
-		if (porte->entrees[i]->valeur == INACTIF)
+		if (t_pin_entree_get_valeur(porte->entrees[i]) == INACTIF)
 			return FAUX; //Retourne Faux si l'entree est inactive.
 	}
 

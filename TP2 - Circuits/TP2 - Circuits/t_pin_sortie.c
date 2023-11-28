@@ -115,7 +115,7 @@ int t_pin_sortie_propager_signal(t_pin_sortie * pin)
 
 	for (int i = 0; i < pin->nb_liaisons; i++)
 	{
-		pin->liaisons[i]->valeur = pin->valeur;
+		(pin->liaisons[i])->valeur = pin->valeur;
 	}
 
 	return VRAI; //Retourne Vrai si propage.
