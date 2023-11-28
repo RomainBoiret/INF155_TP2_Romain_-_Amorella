@@ -188,7 +188,68 @@ void t_circuit_reset(t_circuit* circuit)
 //Fonction: T_CIRCUIT_PROPAGER_SIGNAL
 int t_circuit_propager_signal(t_circuit* circuit)
 {
-	
+	//Initialiser les variables locales.
+	t_file nouv_file;	initfile(&nouv_file);	// Une file de portes que l’on doit initialiser.
+	t_porte* porte_courante = NULL;				// Un pointeur vers une porte.
+	int nb_iterations = 0;						// Un entier initialisé à 0.
+
+	//Vérifier si le circuit est valide.
+	if (t_circuit_est_valide(circuit) == FAUX)
+		return FAUX;
+
+	//Vérifier si l'entrée est valide.
+	for (int i = 0; i < circuit->nb_entrees; i++)
+	{
+		if (t_entree_get_pin(circuit->entrees[i]) == INACTIF)
+			return FAUX;
+	}
+
+	//Vérifier s'il y a une boucle dans le circuit.
+	for (int i = 0; i < circuit->nb_portes; i++)
+	{
+		//pour chaque pin entrée de chaque porte
+		for (int j = 0; j < circuit->portes[i]->nb_entrees; j++)
+		{
+			//Si un des pin d'entrées est relié à la sortie de la même porte, on retourne faux.
+			if (circuit->portes[i]->entrees[j]->liaison == circuit->portes[i]->sortie)
+				return FAUX;
+		}
+	}
+
+	//Propager le signal de l'entree.
+	for (int i = 0; i < circuit->nb_entrees; i++)
+	{
+		t_entree_propager_signal(circuit->entrees[i]);
+	}
+
+	//Ajouter les portes à la file.
+	for (int i = 0; i < circuit->nb_portes; i++)
+	{
+		ajouterfin(&nouv_file, circuit->portes[i]);
+	}
+
+	while (!vide(&nouv_file) && nb_iterations < (circuit->nb_portes * (circuit->nb_portes + 1) / 2))
+	{
+		//Défiler une porte de la file et la stocker dans porte_courante.
+		enleverdebut(&nouv_file, &porte_courante);
+
+		int val_propage = t_porte_propager_signal(porte_courante);
+
+		//Si ça ne se propage pas on le range dans la file.
+		if (val_propage == FAUX)
+		{
+			ajouterfin(&nouv_file, porte_courante);
+		}
+
+		nb_iterations++;
+	}
+
+	//Si la file est vide le signal peut se propager.
+	if (vide(&nouv_file))
+	{
+		return VRAI; //Le signal s’est bien propagé.
+	}
+	else return FAUX; //Car cela veut dire que notre circuit a une boucle .
 }
 
 /************************** Les ACCESSEURS ************************************/
@@ -249,4 +310,3 @@ t_entree* t_circuit_get_entree(const t_circuit* circuit, int pos)
 
 	else return NULL;
 }
-
