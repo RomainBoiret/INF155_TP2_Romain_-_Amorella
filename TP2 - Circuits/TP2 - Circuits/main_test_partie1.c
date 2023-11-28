@@ -8,6 +8,7 @@ Programme qui teste l'utilisation des librairies de circuits logique "t_entree"
 #include <assert.h>
 #include "t_entree.h"
 #include "t_sortie.h"
+#include "t_circuit.h"
 
 int main(void)
 {
@@ -111,10 +112,86 @@ int main(void)
 	printf("Sortie %d = %d\n", t_sortie_get_id(sortie1), t_sortie_get_valeur(sortie1));
 	system("pause");
 
+	/******************************************************/
+//TESTS ajoutés par nous
+
+//TEST T_PORTE_INIT
+	t_porte* porte;
+	porte = t_porte_init(0, PORTE_NOT, "P0");
+	printf("\nNombres d'entrees de la porte: %d", porte->nb_entrees);
+	printf("\n");
+
+	//Set valeurs des entrées
+	t_pin_sortie_set_valeur(entree0->pin, 1);
+	t_pin_sortie_set_valeur(entree1->pin, 1);
+
+	//CONNECTER entrées et la sortie
+	int valeur1 = t_porte_relier(porte, 0, "E0", entree0->pin);
+	int valeur2 = t_porte_relier(porte, 1, "E1", entree1->pin);
+	int valeur3 = t_sortie_relier(sortie0, "S0", porte->sortie);
+
+	//TEST afficher si les liens sont bien faits et si la porte
+	//est reliée
+	int porte_reliee = t_porte_est_reliee(porte);
+	printf("\nLiaison reussie ou pas: %d", valeur1);
+	printf("\nLiaison reussie ou pas: %d", valeur2);
+	printf("\nLiaison reussie ou pas: %d", valeur3);
+	printf("\nPorte reliee ou pas: %d", porte_reliee);
+
+	//tester de propager le signal
+	t_entree_propager_signal(entree0);
+	t_entree_propager_signal(entree1);
+	t_porte_propager_signal(porte);
+	printf("\nValeur recue de la sortie S0: %d", sortie0->pin->valeur);
+	printf("\n\n");
+
+	//Test d'accès au nom de la porte
+	char* nom = t_porte_get_nom(porte);
+	printf("Nom: %s", nom);
+
+	//Test accès au type
+	e_types_portes type = t_porte_get_type(porte);
+	printf("\nType: %d", type);
+
+	/******************************************************/
+
 	//libérer les 4 allocations
 	t_entree_destroy(entree0);
 	t_entree_destroy(entree1);
 	t_sortie_destroy(sortie0);
 	t_sortie_destroy(sortie1);
-	return 0;
+
+/*
+	//déclaration des variables
+	int signal[3];		//les 3 valeurs pour les 3 entrées
+	t_circuit* circuit;   //le circuit complet
+	circuit = t_circuit_init();   //Création du circuit
+	construire_circuit(circuit);
+
+	//Vérification de la validité du circuit
+	if (t_circuit_est_valide(circuit)) {
+		printf("Circuit valide!\n");
+	}
+	else {
+		printf("Circuit invalide!\n");
+	}
+
+	//On définit un signal de 3 bits (111)
+	signal[0] = 1;
+	signal[1] = 1;
+	signal[2] = 1;
+	t_circuit_reset(circuit);
+	t_circuit_appliquer_signal(circuit, signal, 3);
+
+	if (t_circuit_propager_signal(circuit)) {
+		printf("Signal propage avec succes.\n");
+		printf("Sortie 0: %d\n", t_sortie_get_valeur(sortie0));
+		printf("Sortie 1: %d\n", t_sortie_get_valeur(sortie1));
+	}
+	else  printf("Erreur lors de la propagation du signal.\n");
+
+	t_circuit_destroy(circuit);
+	system("pause");
+	return EXIT_SUCCESS;
+*/
 }

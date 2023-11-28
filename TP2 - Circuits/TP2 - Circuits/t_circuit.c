@@ -57,16 +57,29 @@ void t_circuit_destroy(t_circuit* circuit)
 //Fonction: T_CIRCUIT_AJOUTER_PORTE
 t_porte* t_circuit_ajouter_porte(t_circuit* circuit, e_types_portes le_type, int id, char* nom)
 {
-	//1. Je m'assure que le nombre de portes ne dépasse pas le nombre permis
+
+	//1. Je m'assure que le nombre de portes ne dÃ©passe pas le nombre permis
 
 	if (circuit->nb_portes < CIRCUIT_MAX_PORTES)
 	{
-		//Création nouvelle porte avec appel de fonction 
+		//CrÃ©ation nouvelle porte avec appel de fonction 
 
 		circuit->portes[circuit->nb_portes] = t_porte_init(id, le_type, nom);
 		circuit->nb_portes++;
 		//Retourne Vrai si le lien a bien ete ajoute.
 		return (circuit->portes[circuit->nb_portes-1]); 
+
+	//1. Je m'assure que le nombre de portes n'est ne dÃ©passe pas le nombre permis
+
+	if (circuit->nb_portes < CIRCUIT_MAX_PORTES)
+	{
+		//je crÃ©e la nouvelle porte en appelant la fonction qui initialise t_porte
+
+		circuit->portes[circuit->nb_portes] = t_porte_init(id, le_type, nom);
+		circuit->nb_portes++;
+   //Retourne Vrai si le lien a bien ete ajoute.
+		return (circuit->portes[circuit->nb_portes]); 
+
 	}
 
 	return NULL; //Retourne Faux si le lien n'a pas ete ajoute.
@@ -78,15 +91,27 @@ t_entree* t_circuit_ajouter_entree(t_circuit* circuit, int id, char* nom)
 {
 	if (circuit->nb_entrees < MAX_ENTREES)
 	{
-		//Création entrée avec appel de fonction 
+
+		//CrÃ©ation entrÃ©e avec appel de fonction 
 
 		circuit->entrees[circuit->nb_entrees] = t_entree_init(id, nom);
 		circuit->nb_entrees++;
 		//Retourne Vrai si le lien a bien ete ajoute.
 		return (circuit->entrees[circuit->nb_entrees-1]); 
 	}
-	//Retourne Faux si le lien n'a pas ete ajoute.
+	 //Retourne Faux si le lien n'a pas ete ajoute.
 	return NULL; 
+
+		//je crÃ©e la nouvelle porte en appelant la fonction qui initialise t_porte
+
+		circuit->entrees[circuit->nb_entrees] = t_entree_init(id, nom);
+		circuit->nb_entrees++;
+
+		return (circuit->entrees[circuit->nb_entrees]); //Retourne Vrai si le lien a bien ete ajoute.
+	}
+
+	return NULL; //Retourne Faux si le lien n'a pas ete ajoute.
+
 }
 
 /*==========================================================*/
@@ -95,7 +120,8 @@ t_sortie* t_circuit_ajouter_sortie(t_circuit* circuit, int id, char* nom)
 {
 	if (circuit->nb_sorties < MAX_SORTIES)
 	{
-		//Création de nouvelle sortie avec appel de fonction
+
+		//CrÃ©ation de nouvelle sortie avec appel de fonction
 
 		circuit-> sorties[circuit->nb_sorties] = t_sortie_init(id, nom);
 		circuit->nb_sorties++;
@@ -104,6 +130,17 @@ t_sortie* t_circuit_ajouter_sortie(t_circuit* circuit, int id, char* nom)
 	}
 		//Retourne Faux si le lien n'a pas ete ajoute.
 	return NULL; 
+
+		//je crÃ©e la nouvelle porte en appelant la fonction qui initialise t_porte
+
+		circuit-> sorties[circuit->nb_sorties] = t_sortie_init(id, nom);
+		circuit->nb_sorties++;
+   //Retourne Vrai si le lien a bien ete ajoute. 
+		return (circuit->sorties[circuit->nb_sorties]); 
+	}
+
+	return NULL; //Retourne Faux si le lien n'a pas ete ajoute.
+
 }
 
 /*==========================================================*/
@@ -137,7 +174,7 @@ int t_circuit_appliquer_signal(t_circuit* circuit, int signal[], int nb_bits)
 {
 	if (nb_bits == circuit->nb_entrees)
 	{
-		//On change la valeur du pin de sortie de l'entrée 
+		//On change la valeur du pin de sortie de l'entrÃ©e 
 		for (int i = 0; i < circuit->nb_entrees; i++)
 		{
 			t_pin_sortie_set_valeur(circuit->entrees[i]->pin, signal[i]);
@@ -173,7 +210,7 @@ void t_circuit_reset(t_circuit* circuit)
 //Fonction: T_CIRCUIT_PROPAGER_SIGNAL
 int t_circuit_propager_signal(t_circuit* circuit)
 {
-	//à completer 
+	//Ã  completer 
 
 }
 
