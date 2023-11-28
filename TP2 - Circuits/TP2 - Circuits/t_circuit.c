@@ -188,7 +188,7 @@ void t_circuit_reset(t_circuit* circuit)
 //Fonction: T_CIRCUIT_PROPAGER_SIGNAL
 int t_circuit_propager_signal(t_circuit* circuit)
 {
-	//a completer.
+	
 }
 
 /************************** Les ACCESSEURS ************************************/

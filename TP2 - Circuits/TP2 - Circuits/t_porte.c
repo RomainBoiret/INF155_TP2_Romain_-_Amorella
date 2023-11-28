@@ -26,8 +26,6 @@ static void init_entree(t_porte * nouv_porte, e_types_portes type);
 //Fonction: T_PORTE_INIT
 static void init_entree(t_porte * nouv_porte, e_types_portes type)
 {
-	int i;
-
 	nouv_porte->type = type;
 
 	switch (type)
@@ -36,7 +34,7 @@ static void init_entree(t_porte * nouv_porte, e_types_portes type)
 		{
 			nouv_porte->nb_entrees = MAX_ENTREES_PORTE;
 
-			for (i = 0; i < (nouv_porte->nb_entrees); i++)
+			for (int i = 0; i < (nouv_porte->nb_entrees); i++)
 			{
 				nouv_porte->entrees[i] = t_pin_entree_init();
 			}
