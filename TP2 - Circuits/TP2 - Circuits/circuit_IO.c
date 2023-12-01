@@ -28,9 +28,9 @@ void circuit_IO_sauvegarder(const char* nom_fichier, const  t_circuit* circuit)
 	char ecrire[TAILLE];
 	int infocopied = 0;
 
-	infocopied += sprintf(ecrire, "%d", circuit->nb_entrees);
-	infocopied += sprintf(ecrire + infocopied, "%d", circuit->nb_sorties);
-	infocopied += sprintf(ecrire + infocopied, "%d", circuit->nb_portes);
+	infocopied += sprintf(ecrire, "%d ", circuit->nb_entrees);
+	infocopied += sprintf(ecrire + infocopied, "%d ", circuit->nb_sorties);
+	infocopied += sprintf(ecrire + infocopied, "%d ", circuit->nb_portes);
 
 	//ecrire le texte dans le fichier.
 	fprintf(fsortie, "%s\n", ecrire);

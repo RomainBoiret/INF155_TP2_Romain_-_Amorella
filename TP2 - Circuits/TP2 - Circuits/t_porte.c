@@ -244,13 +244,13 @@ void t_porte_serialiser(const t_porte* porte, char* resultat)
 	int infocopied = 0;
 
 	// Copie de l'identifiant numerique de la porte dans la chaine resultat.
-	infocopied += sprintf(resultat, "%d", t_porte_get_id(porte));
+	infocopied += sprintf(resultat, "%d ", t_porte_get_id(porte));
 
 	// Copie du type enumere de la porte dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%d", t_porte_get_type(porte));
+	infocopied += sprintf(resultat + infocopied, "%d ", t_porte_get_type(porte));
 
 	// Copie du nom de la porte dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%c", t_porte_get_nom(porte));
+	infocopied += sprintf(resultat + infocopied, "%s\n", t_porte_get_nom(porte));
 
 	// Fin de la serialisation en ajoutant un caractere de fin de chaine.
 	resultat[infocopied] = '\0';
