@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "t_circuit.h"
+#include "files_portes.h"
 
 /***************************************************************************************/
 /*                             DEFINITION DES FONCTIONS                                */

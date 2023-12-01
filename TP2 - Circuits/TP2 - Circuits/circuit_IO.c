@@ -8,9 +8,7 @@
 /************************************************************************************************************************************************************************************/
 
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
+
 #include "circuit_IO.h"
 
 #define TAILLE 100
@@ -55,6 +53,40 @@ void circuit_IO_sauvegarder(const char* nom_fichier, const  t_circuit* circuit)
 	{
 		t_porte_serialiser(circuit->portes[i], &ecrire);
 		fprintf(fsortie, "%s", ecrire);
+	}
+
+	for (int i = 0; i < circuit->nb_portes; i++)
+	{
+		char position[TAILLE];
+		infocopied = 0;
+
+		infocopied += sprintf(position, "%s ", circuit->portes[i]->nom);
+		
+		for (int j = 0; j < circuit->portes[i]->nb_entrees; j++)
+		{
+			if (circuit->portes[i]->entrees[j]->nom_liaison == NULL)
+			{
+				infocopied += sprintf(position + infocopied, "%s ", "XX");
+			}
+			else
+			{
+				infocopied += sprintf(position + infocopied, "%s ", circuit->portes[i]->entrees[j]->nom_liaison);
+			}
+		}
+	
+		fprintf(fsortie, "%s\n", position);
+	}
+
+	for (int i = 0; i < circuit->nb_sorties; i++)
+	{
+		char texte[TAILLE];
+		infocopied = 0;
+
+		infocopied += sprintf(texte, "%s ", t_sortie_get_nom(circuit->sorties[i]));
+
+		infocopied += sprintf(texte + infocopied, "%s ", circuit->sorties[i]->pin->nom_liaison);
+
+		fprintf(fsortie, "%s\n", texte);
 	}
 
 	fclose(fsortie);
