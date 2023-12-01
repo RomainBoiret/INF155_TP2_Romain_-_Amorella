@@ -244,25 +244,13 @@ void t_porte_serialiser(const t_porte* porte, char* resultat)
 	int infocopied = 0;
 
 	// Copie de l'identifiant numerique de la porte dans la chaine resultat.
-	infocopied += sprintf(resultat, "%d", t_porte_get_id(porte));
-
-	// Copie du nom de la porte dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%c", t_porte_get_nom(porte));
-
-	// Copie du nombre d'entrees dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%d", t_porte_get_nb_entrees(porte));
+	infocopied += sprintf(resultat, "%d ", t_porte_get_id(porte));
 
 	// Copie du type enumere de la porte dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%d", t_porte_get_type(porte));
+	infocopied += sprintf(resultat + infocopied, "%d ", t_porte_get_type(porte));
 
-	// Copie de la valeur de la position 0 de l'entree de la porte dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%d", t_porte_get_pin_entree(porte, 0));
-
-	// Copie de la valeur de la position 1 de l'entree de la porte dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%d", t_porte_get_pin_entree(porte, 1));
-
-	// Copie de la porte de sortie de la porte dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%d", t_porte_get_pin_sortie(porte));
+	// Copie du nom de la porte dans la chaine resultat.
+	infocopied += sprintf(resultat + infocopied, "%s\n", t_porte_get_nom(porte));
 
 	// Fin de la serialisation en ajoutant un caractere de fin de chaine.
 	resultat[infocopied] = '\0';

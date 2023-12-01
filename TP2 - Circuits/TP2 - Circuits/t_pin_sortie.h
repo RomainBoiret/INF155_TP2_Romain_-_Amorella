@@ -25,7 +25,8 @@ Dernière modification: Eric Thé, 2023-11-12
 
 //Le nombre maximal de pins d'entrées auquels une sortie peut être connectée
 #define SORTIE_MAX_LIAISONS 10
-//Constante true et false 
+
+//Constante VRAI et FAUX 
 #define VRAI 1
 #define FAUX 0
 

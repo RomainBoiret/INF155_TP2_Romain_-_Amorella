@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "t_circuit.h"
+#include "files_portes.h"
 
 /***************************************************************************************/
 /*                             DEFINITION DES FONCTIONS                                */
@@ -202,18 +203,6 @@ int t_circuit_propager_signal(t_circuit* circuit)
 	{
 		if (t_entree_get_pin(circuit->entrees[i]) == INACTIF)
 			return FAUX;
-	}
-
-	//Vérifier s'il y a une boucle dans le circuit.
-	for (int i = 0; i < circuit->nb_portes; i++)
-	{
-		//pour chaque pin entrée de chaque porte
-		for (int j = 0; j < circuit->portes[i]->nb_entrees; j++)
-		{
-			//Si un des pin d'entrées est relié à la sortie de la même porte, on retourne faux.
-			if (circuit->portes[i]->entrees[j]->liaison == circuit->portes[i]->sortie)
-				return FAUX;
-		}
 	}
 
 	//Propager le signal de l'entree.

@@ -10,6 +10,7 @@ Programme qui teste l'utilisation des librairies de circuits logique "t_entree"
 #include "t_entree.h"
 #include "t_sortie.h"
 #include "t_circuit.h"
+#include "circuit_IO.h"
 
 void construire_circuit(t_circuit* circuit)
 {  //variables locales pour les composantes du circuit
@@ -180,6 +181,9 @@ int main(void)
 		printf("Sortie 1: %d\n", t_sortie_get_valeur(sortie1));
 	}
 	else  printf("Erreur lors de la propagation du signal.\n");
+
+	char* nom_fich = "test.txt";
+	circuit_IO_sauvegarder(nom_fich, circuit);
 
 	t_circuit_destroy(circuit);
 

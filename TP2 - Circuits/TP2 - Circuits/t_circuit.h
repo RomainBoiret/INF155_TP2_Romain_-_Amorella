@@ -17,7 +17,6 @@ Dernière modification: Eric Thé, 2023-11-06
 #include "t_entree.h"
 #include "t_porte.h"
 #include "t_sortie.h"
-#include "files_portes.h"
 
 
 typedef struct t_entree t_entree; 
