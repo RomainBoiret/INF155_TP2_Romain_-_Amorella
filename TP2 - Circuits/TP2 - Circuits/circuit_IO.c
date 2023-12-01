@@ -13,35 +13,51 @@
 #include <assert.h>
 #include "circuit_IO.h"
 
+#define TAILLE 100
+
 /***************************************************************************************/
 /*                             DEFINITION DES FONCTIONS                                */
 /***************************************************************************************/
 
 /*==========================================================*/
 //Fonction: CIRCUIT_IO_SAUVEGARDER
-void circuit_IO_sauvegarder(const char* test_circuit, const  t_circuit* circuit)
+void circuit_IO_sauvegarder(const char* nom_fichier, const  t_circuit* circuit)
 {
+	FILE* fsortie = fopen(nom_fichier, "a");  //ouverture du fichier 
+
+	char ecrire[TAILLE];
+	int infocopied = 0;
+
+	infocopied += sprintf(ecrire, "%d", circuit->nb_entrees);
+	infocopied += sprintf(ecrire + infocopied, "%d", circuit->nb_sorties);
+	infocopied += sprintf(ecrire + infocopied, "%d", circuit->nb_portes);
+
+	//ecrire le texte dans le fichier.
+	fprintf(fsortie, "%s\n", ecrire);
+
 	//Transformer les composantes du circuits en format textuel.
 	//Tansformer en textes les composantes de t_entree.
 	for (int i = 0; i < circuit->nb_entrees; i++)
 	{
-		t_entree_serialiser(circuit->entrees[i], &test_circuit);
+		t_entree_serialiser(circuit->entrees[i], &ecrire);
+		fprintf(fsortie, "%s", ecrire);
 	}
 
 	//Tansformer en textes les composantes de t_sortie.
 	for (int i = 0; i < circuit->nb_sorties; i++)
 	{
-		t_sortie_serialiser(circuit->sorties[i], &test_circuit);
+		t_sortie_serialiser(circuit->sorties[i], &ecrire);
+		fprintf(fsortie, "%s", ecrire);
 	}
 
 	//Tansformer en textes les composantes de t_porte.
 	for (int i = 0; i < circuit->nb_portes; i++)
 	{
-		t_porte_serialiser(circuit->portes[i], &test_circuit);
+		t_porte_serialiser(circuit->portes[i], &ecrire);
+		fprintf(fsortie, "%s", ecrire);
 	}
 
-	FILE *fecrire = fopen("test_circuit.txt", "w");  //ouverture du fichier 
-	//fprintf(fecrire, "%s\n", chaine);      //dans le fichier avec le ‘\n’
+	fclose(fsortie);
 }
 
 /*==========================================================*/

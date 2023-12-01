@@ -107,7 +107,5 @@ void t_sortie_serialiser(const t_sortie* sortie, char* resultat)
 
 	infocopie += sprintf(resultat + infocopie, "%s", t_sortie_get_nom(sortie));
 
-	infocopie += sprintf(resultat + infocopie, "%d", t_sortie_get_valeur(sortie));
-
 	resultat[infocopie] = '\0';
 }

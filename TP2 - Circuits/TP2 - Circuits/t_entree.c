@@ -105,9 +105,6 @@ void t_entree_serialiser(const t_entree* entree, char* resultat)
 	// Copie du nom de l'entree dans la chaine resultat.
 	infocopied += sprintf(resultat + infocopied, "%s", t_entree_get_nom(entree));
 
-	// Copie de la valeur du signal de l'entree dans la chaine resultat.
-	infocopied += sprintf(resultat + infocopied, "%d", t_entree_get_valeur(entree));
-
 	// Fin de la serialisation en ajoutant un caractere de fin de chaine.
 	resultat[infocopied] = '\0';
 }

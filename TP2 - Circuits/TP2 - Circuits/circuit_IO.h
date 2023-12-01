@@ -20,7 +20,7 @@
 
 
 
-void circuit_IO_sauvegarder(const char* test_circuit, const  t_circuit* circuit);
+void circuit_IO_sauvegarder(const char* nom_fichier, const  t_circuit* circuit);
 
 
 void circuit_IO_charger(const char* chemin_acces, t_circuit* circuit);
