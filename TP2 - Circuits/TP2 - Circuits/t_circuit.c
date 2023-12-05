@@ -8,6 +8,7 @@
 /************************************************************************************************************************************************************************************/
 
 #define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "t_circuit.h"
@@ -266,7 +267,7 @@ t_porte* t_circuit_get_porte(const t_circuit* circuit, int pos)
 //Fonction: T_CIRCUIT_GET_NB_SORTIES
 int t_circuit_get_nb_sorties(const t_circuit* circuit)
 {
-	return circuit->sorties;
+	return circuit->nb_sorties;
 }
 
 /*==========================================================*/

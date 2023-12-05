@@ -10,9 +10,6 @@
 #ifndef CIRCUIT_IO_H_
 #define CIRCUIT_IO_H_
 
-
-#include <stdio.h>
-
 #include "t_circuit.h"
 
 
