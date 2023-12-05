@@ -1,5 +1,5 @@
 /************************************************************************************************************************************************************************************/
-/*  Fichier : CRICUIT_IO.C																						                                                                */
+/*  Fichier : CRICUIT_IO.C																						                                                                    */
 /*  Auteurs : BOIRET Romain   BOIR71300401																		                                                                    */
 /*	          LENGA  Amorella LENA91330301																		                                                                    */
 /*  Date de creation : <28 / 11 / 2023>																		                                                                        */
@@ -9,9 +9,131 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "circuit_IO.h"
 
 #define TAILLE 100
+
+/***************************************************************************************/
+/*                         DECLARATION DES FONCTIONS PRIVEES                           */
+/***************************************************************************************/
+
+//Pour la fonction CIRCUIT_IO_SAUVEGARDER.
+static void ecrire_entrees(const char* nom_fichier, int nb_entrees, const  t_circuit* circuit);
+static void ecrire_sorties(const char* nom_fichier, int nb_sorties, const  t_circuit* circuit);
+static void ecrire_portes(const char* nom_fichier, int nb_portes, const  t_circuit* circuit);
+static void ecrire_liens(const char* nom_fichier, const  t_circuit* circuit);
+
+//Pour la fonction CIRCUIT_IO_CHARGER.
+static void lire_entrees(const char* nom_fichier, int nb_entrees, const  t_circuit* circuit);
+static void lire_sorties(const char* nom_fichier, int nb_sorties, const  t_circuit* circuit);
+static void lire_portes(const char* nom_fichier, int nb_portes, const  t_circuit* circuit);
+static void lire_liens(const char* nom_fichier, const  t_circuit* circuit);
+
+/***************************************************************************************/
+/*                         DEFINITION DES FONCTIONS PRIVEES                            */
+/***************************************************************************************/
+
+/*==========================================================*/
+//Fonction: ECRIRE_ENTREES
+static void ecrire_entrees(FILE* nom_fichier, int nb_entrees, const  t_circuit* circuit)
+{
+	char ecrire[TAILLE];
+#
+	for (int i = 0; i < nb_entrees; i++)
+	{
+		t_entree_serialiser(circuit->entrees[i], ecrire);
+		fprintf(nom_fichier, "%s", ecrire);
+	}
+}
+
+/*==========================================================*/
+//Fonction: ECRIRE_SORTIES
+static void ecrire_sorties(FILE* nom_fichier, int nb_sorties, const  t_circuit* circuit)
+{
+	char ecrire[TAILLE];
+
+	for (int i = 0; i < nb_sorties; i++)
+	{
+		t_sortie_serialiser(circuit->sorties[i], ecrire);
+		fprintf(nom_fichier, "%s", ecrire);
+	}
+}
+
+/*==========================================================*/
+//Fonction: ECRIRE_PORTES
+static void ecrire_portes(FILE* nom_fichier, int nb_portes, const  t_circuit* circuit)
+{
+	char ecrire[TAILLE];
+
+	for (int i = 0; i < nb_portes; i++)
+	{
+		t_porte_serialiser(circuit->portes[i], ecrire);
+		fprintf(nom_fichier, "%s", ecrire);
+	}
+}
+
+/*==========================================================*/
+//Fonction: ECRIRE_LIENS
+static void ecrire_liens(FILE* nom_fichier, const  t_circuit* circuit)
+{
+	for (int i = 0; i < circuit->nb_portes; i++)
+	{
+		fprintf(nom_fichier, "%s ", circuit->portes[i]->nom);
+
+		for (int j = 0; j < circuit->portes[i]->nb_entrees; j++)
+		{
+			if (circuit->portes[i]->entrees[j]->nom_liaison == NULL)
+			{
+				fprintf(nom_fichier, "%s ", "XX");
+			}
+			else
+			{
+				fprintf(nom_fichier, "%s ", circuit->portes[i]->entrees[j]->nom_liaison);
+			}
+		}
+
+		fprintf(nom_fichier, "%c", '\n');
+	}
+
+	for (int i = 0; i < circuit->nb_sorties; i++)
+	{
+		fprintf(nom_fichier, "%s ", circuit->sorties[i]->nom);
+
+		fprintf(nom_fichier, "%s ", circuit->sorties[i]->pin->nom_liaison);
+
+		fprintf(nom_fichier, "%c", '\n');
+	}
+}
+
+/*==========================================================*/
+//Fonction: LIRE_ENTREES
+static void lire_entrees(FILE* nom_fichier, int nb_entrees, const  t_circuit* circuit)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: LIRE_SORTIES
+static void lire_sorties(FILE* nom_fichier, int nb_sorties, const  t_circuit* circuit)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: LIRE_PORTES
+static void lire_portes(FILE* nom_fichier, int nb_portes, const  t_circuit* circuit)
+{
+
+}
+
+/*==========================================================*/
+//Fonction: LIRE_LIENS
+static void lire_liens(FILE* nom_fichier, const  t_circuit* circuit)
+{
+
+}
 
 /***************************************************************************************/
 /*                             DEFINITION DES FONCTIONS                                */
@@ -21,73 +143,29 @@
 //Fonction: CIRCUIT_IO_SAUVEGARDER
 void circuit_IO_sauvegarder(const char* nom_fichier, const  t_circuit* circuit)
 {
-	FILE* fsortie = fopen(nom_fichier, "a");  //ouverture du fichier 
+	FILE* fsortie = fopen(nom_fichier, "w");  //ouverture du fichier 
 
 	char ecrire[TAILLE];
 	int infocopied = 0;
 
-	infocopied += sprintf(ecrire, "%d ", circuit->nb_entrees);
-	infocopied += sprintf(ecrire + infocopied, "%d ", circuit->nb_sorties);
-	infocopied += sprintf(ecrire + infocopied, "%d ", circuit->nb_portes);
+	int nb_entrees = t_circuit_get_nb_entrees(circuit);
+	int nb_sorties = t_circuit_get_nb_sorties(circuit);
+	int nb_portes = t_circuit_get_nb_portes(circuit);
 
-	//ecrire le texte dans le fichier.
-	fprintf(fsortie, "%s\n", ecrire);
+	fprintf(fsortie, "%d %d %d\n", nb_entrees, nb_sorties, nb_portes);
 
 	//Transformer les composantes du circuits en format textuel.
 	//Tansformer en textes les composantes de t_entree.
-	for (int i = 0; i < circuit->nb_entrees; i++)
-	{
-		t_entree_serialiser(circuit->entrees[i], &ecrire);
-		fprintf(fsortie, "%s", ecrire);
-	}
+	ecrire_entrees(fsortie, nb_entrees, circuit);
 
 	//Tansformer en textes les composantes de t_sortie.
-	for (int i = 0; i < circuit->nb_sorties; i++)
-	{
-		t_sortie_serialiser(circuit->sorties[i], &ecrire);
-		fprintf(fsortie, "%s", ecrire);
-	}
+	ecrire_sorties(fsortie, nb_sorties, circuit);
 
 	//Tansformer en textes les composantes de t_porte.
-	for (int i = 0; i < circuit->nb_portes; i++)
-	{
-		t_porte_serialiser(circuit->portes[i], &ecrire);
-		fprintf(fsortie, "%s", ecrire);
-	}
+	ecrire_portes(fsortie, nb_portes, circuit);
 
-	for (int i = 0; i < circuit->nb_portes; i++)
-	{
-		char position[TAILLE];
-		infocopied = 0;
-
-		infocopied += sprintf(position, "%s ", circuit->portes[i]->nom);
-		
-		for (int j = 0; j < circuit->portes[i]->nb_entrees; j++)
-		{
-			if (circuit->portes[i]->entrees[j]->nom_liaison == NULL)
-			{
-				infocopied += sprintf(position + infocopied, "%s ", "XX");
-			}
-			else
-			{
-				infocopied += sprintf(position + infocopied, "%s ", circuit->portes[i]->entrees[j]->nom_liaison);
-			}
-		}
-	
-		fprintf(fsortie, "%s\n", position);
-	}
-
-	for (int i = 0; i < circuit->nb_sorties; i++)
-	{
-		char texte[TAILLE];
-		infocopied = 0;
-
-		infocopied += sprintf(texte, "%s ", t_sortie_get_nom(circuit->sorties[i]));
-
-		infocopied += sprintf(texte + infocopied, "%s ", circuit->sorties[i]->pin->nom_liaison);
-
-		fprintf(fsortie, "%s\n", texte);
-	}
+	//Tansformer en textes les composantes des liens.
+	ecrire_liens(fsortie, circuit);
 
 	fclose(fsortie);
 }
