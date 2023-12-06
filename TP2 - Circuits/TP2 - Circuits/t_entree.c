@@ -26,8 +26,7 @@ t_entree* t_entree_init(int id, char* nom)
 	nouv_entree = (t_entree*)malloc(sizeof(t_entree));
 
 	nouv_entree->id = id;
-	nouv_entree->nom = nom;
-
+	nouv_entree->nom = _strdup(nom);
 	nouv_entree->pin = t_pin_sortie_init();
 
 	return nouv_entree;

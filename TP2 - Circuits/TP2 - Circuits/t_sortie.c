@@ -26,8 +26,7 @@ t_sortie* t_sortie_init(int id, char* nom)
 	sortie_init = (t_sortie*)malloc(sizeof(t_sortie)); 
 
 	sortie_init->id = id;
-	sortie_init->nom = nom;
-
+	sortie_init->nom = _strdup(nom);
 	sortie_init->pin = t_pin_entree_init();
 
 	return sortie_init;

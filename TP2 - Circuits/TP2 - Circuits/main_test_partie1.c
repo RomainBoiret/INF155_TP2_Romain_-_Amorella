@@ -182,10 +182,20 @@ int main(void)
 	}
 	else  printf("Erreur lors de la propagation du signal.\n");
 
+	//TEST circuit_io_sauvegarder
 	char* nom_fich = "test.txt";
 	circuit_IO_sauvegarder(nom_fich, circuit);
 
+	//TEST créer circuit
+	t_circuit* circuit2 = t_circuit_init();
+	circuit_IO_charger(nom_fich, circuit2);
+
+	//TEST sauvegarder nouveau circuit dans nouveau fichier
+	char* nom_fich2 = "test2.txt";
+	circuit_IO_sauvegarder(nom_fich2, circuit2);
+
 	t_circuit_destroy(circuit);
+	t_circuit_destroy(circuit2);
 
 	//libérer les 4 allocations
 	t_entree_destroy(entree0);

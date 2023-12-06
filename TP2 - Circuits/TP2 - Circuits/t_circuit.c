@@ -257,7 +257,7 @@ t_porte* t_circuit_get_porte(const t_circuit* circuit, int pos)
 {
 	if (pos > INACTIF && pos < CIRCUIT_MAX_PORTES)
 	{
-		return circuit->sorties[pos];
+		return circuit->portes[pos];
 	}
 
 	else return NULL;
