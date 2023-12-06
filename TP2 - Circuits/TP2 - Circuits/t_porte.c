@@ -59,7 +59,7 @@ t_porte* t_porte_init(int id, e_types_portes type, char* nom)
 	nouv_porte = (t_porte*)malloc(sizeof(t_porte));
 
 	nouv_porte->id = id;
-	nouv_porte->nom = nom;
+	nouv_porte->nom = _strdup(nom);
 	nouv_porte->type = type;
 
 	init_entree(nouv_porte, type);
