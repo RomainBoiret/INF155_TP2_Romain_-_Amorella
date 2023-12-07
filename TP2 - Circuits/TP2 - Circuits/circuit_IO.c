@@ -121,8 +121,9 @@ static void ecrire_liens(FILE* nom_fichier, const  t_circuit* circuit)
 
 	{	//Récupération de chaque sortie et affichage de chacun des liens 
 		t_circuit*sortie = t_circuit_get_sortie(circuit, i);
-		const char *nomlien = t_pin_entree_get_lien(sortie);
-		const char *nomsortie = t_sortie_get_nom(circuit->sorties[i]);
+		const char *nomsortie = t_sortie_get_nom(sortie);
+		const char *nomlien = t_pin_entree_get_lien(circuit->sorties[i]->pin);
+		
 		fprintf(nom_fichier, "%s ", nomsortie);
 		printf("Sortie %s <- ", nomsortie);
 
