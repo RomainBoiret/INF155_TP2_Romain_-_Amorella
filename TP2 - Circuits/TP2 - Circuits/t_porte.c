@@ -199,9 +199,10 @@ int t_porte_propager_signal(t_porte* porte)
 /*==========================================================*/
 //Fonction: T_PORTE_GET_ID
 int t_porte_get_id(const t_porte* porte)
-{
-	return porte->id;
-}
+
+	{
+		return porte->id;
+	}
 
 /*==========================================================*/
 //Fonction: T_PORTE_GET_NOM
