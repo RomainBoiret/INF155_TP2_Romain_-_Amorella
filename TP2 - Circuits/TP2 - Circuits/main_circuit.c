@@ -66,11 +66,14 @@ int main(void)
 		signal[2] = 1;
 
 		t_circuit_reset(circuit);
-		t_circuit_appliquer_signal(circuit, signal, 3);
-
-		if (t_circuit_propager_signal(circuit))
+		t_circuit_appliquer_signal(circuit, signal, NB_BITS_SIGNAL);
+		
+		if (t_circuit_propager_signal(circuit)) 
 		{
 			printf("Signal propage avec succes.\n");
+
+			for (int i = 0; i < t_circuit_get_nb_sorties(circuit); i++)
+				printf("Sortie %d: %d\n", i, t_sortie_get_valeur(t_circuit_get_sortie(circuit, i)));
 		}
 		else
 		{
@@ -103,13 +106,40 @@ int main(void)
 			printf("Circuit invalide!\n");
 		}
 
+		//On définit un signal de 3 bits (111)
+		signal[0] = 1;
+		signal[1] = 1;
+		signal[2] = 1;
+
+		t_circuit_reset(circuit);
+		t_circuit_appliquer_signal(circuit, signal, t_circuit_get_nb_entrees(circuit));
+
 		if (t_circuit_propager_signal(circuit))
 		{
 			printf("Signal propage avec succes.\n");
+
+			for (int i = 0; i < t_circuit_get_nb_sorties(circuit); i++)
+				printf("Sortie %d: %d\n", i, t_sortie_get_valeur(t_circuit_get_sortie(circuit, i)));
 		}
 		else
 		{
 			printf("Erreur lors de la propagation du signal.\n");
+		}
+
+		for (int i = 0; i < t_circuit_get_nb_sorties(circuit); i++)
+		{
+			t_sortie* sortie = t_circuit_get_sortie(circuit, i);
+
+			if (t_sortie_est_reliee(sortie) == 0)
+				printf("La sortie %s n'est pas reliee!\n", t_sortie_get_nom(sortie));
+		}
+
+		for (int i = 0; i < t_circuit_get_nb_portes(circuit); i++)
+		{
+			t_porte* porte = t_circuit_get_porte(circuit, i);
+
+			if (t_porte_est_reliee(porte) == 0)
+				printf("La porte %s n'est pas reliee!\n", t_porte_get_nom(porte));
 		}
 
 		circuit_IO_sauvegarder(nouv_fichier, circuit);
@@ -118,7 +148,7 @@ int main(void)
 
 		t_circuit_destroy(circuit);
 	}
-
+	  
 	return EXIT_SUCCESS;
 }
 

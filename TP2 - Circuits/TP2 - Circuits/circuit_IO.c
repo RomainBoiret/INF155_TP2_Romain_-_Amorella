@@ -14,9 +14,6 @@
 #include <assert.h>
 #include "circuit_IO.h"
 
-#define TAILLE 100
-#define CONVERT_ASCII 48
-
 /***************************************************************************************/
 /*                         DECLARATION DES FONCTIONS PRIVEES                           */
 /***************************************************************************************/
@@ -92,7 +89,7 @@ static void ecrire_liens(FILE* nom_fichier, const  t_circuit* circuit)
 	for (int i = 0; i < circuit->nb_portes; i++)
 	{	
 		//Récupération du nom de chaque porte
-		t_circuit* porte = t_circuit_get_porte(circuit,i);
+		t_porte* porte = t_circuit_get_porte(circuit,i);
 		const char* nomporte = t_porte_get_nom(porte);
 
 		fprintf(nom_fichier, "%s ", nomporte);
@@ -103,13 +100,14 @@ static void ecrire_liens(FILE* nom_fichier, const  t_circuit* circuit)
 			//Récupération de chaque nom de liaisons liés à ces portes
 			const char* nomliaison = t_pin_entree_get_lien(circuit->portes[i]->entrees[j]);
 
-			if (nomliaison == NULL)
-			{	
-				//si liaison n'a pas de nom, afficher les xx
-				fprintf(nom_fichier, "XX");
-				printf("VIDE");
-			}
+			t_pin_entree* entree_porte = t_porte_get_pin_entree(porte, j);
 
+			//Si le nom de la liaison est vide:
+			if (strcmp(t_pin_entree_get_lien(entree_porte), "") == 0)
+			{
+				fprintf(nom_fichier, "%s ", "XX");
+				printf("%s ", "VIDE");
+			}
 			else
 			{	
 				//Affichage de chaque nom de liaison
@@ -125,18 +123,25 @@ static void ecrire_liens(FILE* nom_fichier, const  t_circuit* circuit)
 	for (int i = 0; i < circuit->nb_sorties; i++)
 	{	
 		//Récupération de chaque sortie et affichage de chacun des liens 
-		t_circuit* sortie = t_circuit_get_sortie(circuit, i);
+		t_sortie* sortie = t_circuit_get_sortie(circuit, i);
 		const char* nomsortie = t_sortie_get_nom(sortie);
-		t_circuit* pin = t_entree_get_pin(sortie);
-		const char* nomlien = t_pin_entree_get_lien(pin);
+		const char* nomlien = t_pin_entree_get_lien(t_sortie_get_pin(sortie));
 		
 		fprintf(nom_fichier, "%s ", nomsortie);
 		printf("Sortie %s <- ", nomsortie);
 
-		fprintf(nom_fichier, "%s ", nomlien);
-		printf("%s", nomlien);
+		if (strcmp(nomlien, "") == 0)
+		{
+			fprintf(nom_fichier, "%s ", "XX");
+			printf("%s", "VIDE");
+		}
+		else
+		{
+			fprintf(nom_fichier, "%s ", nomlien);
+			printf("%s", nomlien);
+		}
 
-		fprintf(nom_fichier, "\n"); //saut de ligne.
+		fprintf(nom_fichier, "%c", '\n'); //saut de ligne.
 		printf("\n");
 	}
 }
@@ -208,7 +213,7 @@ static void lire_liens(FILE * chemin_acces, const  t_circuit * circuit)
 
 		if (nom_comp[0] == 'P')
 		{
-			porte_pos = nom_comp[1] - 48;
+			porte_pos = nom_comp[1] - CONVERT_ASCII;
 
 			porte = t_circuit_get_porte(circuit, porte_pos);
 			porte_nb_entrees = t_porte_get_nb_entrees(porte);
@@ -219,7 +224,7 @@ static void lire_liens(FILE * chemin_acces, const  t_circuit * circuit)
 
 				if (nom_liais[0] == 'E')
 				{
-					liaison_pos = nom_liais[1] - 48;
+					liaison_pos = nom_liais[1] - CONVERT_ASCII;
 					entree_des = circuit->entrees[liaison_pos];
 			
 					source = t_entree_get_pin(entree_des);
@@ -229,10 +234,10 @@ static void lire_liens(FILE * chemin_acces, const  t_circuit * circuit)
 
 				else if (nom_liais[0] == 'P')
 				{
-					liaison_pos = nom_liais[1] - 48;
+					liaison_pos = nom_liais[1] - CONVERT_ASCII;
 					porte_des = t_circuit_get_porte(circuit, liaison_pos);
 
-					source = t_porte_get_pin_sortie(porte);
+					source = t_porte_get_pin_sortie(porte_des);
 
 					t_porte_relier(porte, i, nom_liais, source);
 				}
@@ -241,12 +246,12 @@ static void lire_liens(FILE * chemin_acces, const  t_circuit * circuit)
 
 		else if (nom_comp[0] == 'S')
 		{
-			sortie_pos = nom_comp[1] - 48;
+			sortie_pos = nom_comp[1] - CONVERT_ASCII;
 			sortie_des = t_circuit_get_sortie(circuit, sortie_pos);
 
 			fscanf(chemin_acces, "%s", nom_liais);
 
-			liaison_pos = nom_liais[1] - 48;
+			liaison_pos = nom_liais[1] - CONVERT_ASCII;
 
 			porte_des = t_circuit_get_porte(circuit, liaison_pos);
 
