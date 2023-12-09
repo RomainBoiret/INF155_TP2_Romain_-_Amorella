@@ -1,5 +1,5 @@
 /************************************************************************************************************************************************************************************/
-/*  Fichier : MAIN_CIRCUIT.C																						                                                                    */
+/*  Fichier : MAIN_CIRCUIT.C																						                                                                */
 /*  Auteurs : BOIRET Romain   BOIR71300401																		                                                                    */
 /*	          LENGA  Amorella LENA91330301																		                                                                    */
 /*  Date de creation : <28 / 11 / 2023>																		                                                                        */
@@ -9,20 +9,21 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <assert.h>
-#include "t_entree.h"
-#include "t_sortie.h"
-#include "t_circuit.h"
-#include "circuit_IO.h"
+#include "table_de_veritee.h"
 
 #define MANUEL_1 1
 #define MANUEL_2 2
 #define CHARGE   3
 #define NB_BITS_SIGNAL_M1 3
 #define NB_BITS_SIGNAL_M2 4
-#define NOM_FICHIER   50
+#define NOM_FICHIER		 50
 
 void construire_circuit_m1(t_circuit* circuit); //AUTEUR: ERIC THE.
 void construire_circuit_m2(t_circuit* circuit); //AUTEUR: BOIRET Romain & LENGA Amorella.
+
+/***************************************************************************************/
+/*                                 PROGRAMME PRINCIPAL                                 */
+/***************************************************************************************/
 
 int main(void)
 {
@@ -32,9 +33,7 @@ int main(void)
 	int signal_m2[NB_BITS_SIGNAL_M2];		//les 4 valeurs pour les 4 entrées du cricuit_2
 	char* nom_fichier[NOM_FICHIER];
 	char* nouv_fichier = "nouv_circuit.txt";
-	t_circuit* circuit_1;   //le circuit complet
-	t_circuit* circuit_2;   //le circuit complet
-	t_circuit* circuit_3;   //le circuit complet
+	t_circuit* circuit;   //le circuit complet
 
 	printf("Veuillez choisir un mode de creation de ciruit:\n");
 	printf("1 - creation manuel\n");
@@ -56,11 +55,11 @@ int main(void)
 	{
 		case MANUEL_1:
 		{
-			circuit_1 = t_circuit_init();   //Création du circuit
-			construire_circuit_m1(circuit_1);
+			circuit = t_circuit_init();   //Création du circuit
+			construire_circuit_m1(circuit);
 
 			//Vérification de la validité du circuit
-			if (t_circuit_est_valide(circuit_1))
+			if (t_circuit_est_valide(circuit))
 			{
 				printf("Circuit valide!\n");
 			}
@@ -74,37 +73,43 @@ int main(void)
 			signal_m1[1] = 1;
 			signal_m1[2] = 1;
 
-			t_circuit_reset(circuit_1);
-			t_circuit_appliquer_signal(circuit_1, signal_m1, NB_BITS_SIGNAL_M1);
+			t_circuit_reset(circuit);
+			t_circuit_appliquer_signal(circuit, signal_m1, NB_BITS_SIGNAL_M1);
 
-			if (t_circuit_propager_signal(circuit_1))
+			if (t_circuit_propager_signal(circuit))
 			{
 				printf("Signal propage avec succes.\n");
 
-				for (int i = 0; i < t_circuit_get_nb_sorties(circuit_1); i++)
-					printf("Sortie %d: %d\n", i, t_sortie_get_valeur(t_circuit_get_sortie(circuit_1, i)));
+				for (int i = 0; i < t_circuit_get_nb_sorties(circuit); i++)
+					printf("Sortie %d: %d\n", i, t_sortie_get_valeur(t_circuit_get_sortie(circuit, i)));
 			}
 			else
 			{
 				printf("Erreur lors de la propagation du signal.\n");
 			}
 
-			circuit_IO_sauvegarder(nouv_fichier, circuit_1);
+			circuit_IO_sauvegarder(nouv_fichier, circuit);
+
+			int **matrice = t_circuit_tdv(circuit);
+
+			//Afficher la table de veritee.
+			printf("\nTable de verite du circuit:\n");
+			afficher_mat_bits(matrice, circuit);
 
 			printf("\nLe fichier [nouv_fichier.txt] a ete cree avec succes\n");
 
-			t_circuit_destroy(circuit_1);
+			t_circuit_destroy(circuit);
 
 			break;
 		}
 
 		case MANUEL_2:
 		{
-			circuit_2 = t_circuit_init();   //Création du circuit
-			construire_circuit_m2(circuit_2);
+			circuit = t_circuit_init();   //Création du circuit
+			construire_circuit_m2(circuit);
 
 			//Vérification de la validité du circuit
-			if (t_circuit_est_valide(circuit_2))
+			if (t_circuit_est_valide(circuit))
 			{
 				printf("Circuit valide!\n");
 			}
@@ -119,41 +124,47 @@ int main(void)
 			signal_m2[2] = 1;
 			signal_m2[3] = 1;
 
-			t_circuit_reset(circuit_2);
-			t_circuit_appliquer_signal(circuit_2, signal_m2, NB_BITS_SIGNAL_M2);
+			t_circuit_reset(circuit);
+			t_circuit_appliquer_signal(circuit, signal_m2, NB_BITS_SIGNAL_M2);
 
-			if (t_circuit_propager_signal(circuit_2))
+			if (t_circuit_propager_signal(circuit))
 			{
 				printf("Signal propage avec succes.\n");
 
-				for (int i = 0; i < t_circuit_get_nb_sorties(circuit_2); i++)
-					printf("Sortie %d: %d\n", i, t_sortie_get_valeur(t_circuit_get_sortie(circuit_2, i)));
+				for (int i = 0; i < t_circuit_get_nb_sorties(circuit); i++)
+					printf("Sortie %d: %d\n", i, t_sortie_get_valeur(t_circuit_get_sortie(circuit, i)));
 			}
 			else
 			{
 				printf("Erreur lors de la propagation du signal.\n");
 			}
 
-			circuit_IO_sauvegarder(nouv_fichier, circuit_2);
+			circuit_IO_sauvegarder(nouv_fichier, circuit);
+
+			int** matrice = t_circuit_tdv(circuit);
+
+			//Afficher la table de veritee.
+			printf("\nTable de verite du circuit:\n");
+			afficher_mat_bits(matrice, circuit);
 
 			printf("\nLe fichier [nouv_fichier.txt] a ete cree avec succes\n");
 
-			t_circuit_destroy(circuit_2);
+			t_circuit_destroy(circuit);
 
 			break;
 		}
 
 		case CHARGE:
 		{
-			circuit_3 = t_circuit_init();   //Création du circuit
+			circuit = t_circuit_init();   //Création du circuit
 
 			printf("\nEntrez le nom du fichier-texte source a lire : ");
 			scanf("%s", &nom_fichier);
 
-			circuit_IO_charger(nom_fichier, circuit_3);
+			circuit_IO_charger(nom_fichier, circuit);
 
 			//Vérification de la validité du circuit
-			if (t_circuit_est_valide(circuit_3))
+			if (t_circuit_est_valide(circuit))
 			{
 				printf("\nCircuit valide!\n");
 			}
@@ -167,42 +178,48 @@ int main(void)
 			signal_m1[1] = 1;
 			signal_m1[2] = 1;
 
-			t_circuit_reset(circuit_3);
-			t_circuit_appliquer_signal(circuit_3, signal_m1, t_circuit_get_nb_entrees(circuit_3));
+			t_circuit_reset(circuit);
+			t_circuit_appliquer_signal(circuit, signal_m1, t_circuit_get_nb_entrees(circuit));
 
-			if (t_circuit_propager_signal(circuit_3))
+			if (t_circuit_propager_signal(circuit))
 			{
 				printf("Signal propage avec succes.\n");
 
-				for (int i = 0; i < t_circuit_get_nb_sorties(circuit_3); i++)
-					printf("Sortie %d: %d\n", i, t_sortie_get_valeur(t_circuit_get_sortie(circuit_3, i)));
+				for (int i = 0; i < t_circuit_get_nb_sorties(circuit); i++)
+					printf("Sortie %d: %d\n", i, t_sortie_get_valeur(t_circuit_get_sortie(circuit, i)));
 			}
 			else
 			{
 				printf("Erreur lors de la propagation du signal.\n");
 			}
 
-			for (int i = 0; i < t_circuit_get_nb_sorties(circuit_3); i++)
+			for (int i = 0; i < t_circuit_get_nb_sorties(circuit); i++)
 			{
-				t_sortie* sortie = t_circuit_get_sortie(circuit_3, i);
+				t_sortie* sortie = t_circuit_get_sortie(circuit, i);
 
 				if (t_sortie_est_reliee(sortie) == 0)
 					printf("La sortie %s n'est pas reliee!\n", t_sortie_get_nom(sortie));
 			}
 
-			for (int i = 0; i < t_circuit_get_nb_portes(circuit_3); i++)
+			for (int i = 0; i < t_circuit_get_nb_portes(circuit); i++)
 			{
-				t_porte* porte = t_circuit_get_porte(circuit_3, i);
+				t_porte* porte = t_circuit_get_porte(circuit, i);
 
 				if (t_porte_est_reliee(porte) == 0)
 					printf("La porte %s n'est pas reliee!\n", t_porte_get_nom(porte));
 			}
 
-			circuit_IO_sauvegarder(nouv_fichier, circuit_3);
+			circuit_IO_sauvegarder(nouv_fichier, circuit);
+
+			int** matrice = t_circuit_tdv(circuit);
+
+			//Afficher la table de veritee.
+			printf("\nTable de verite du circuit:\n");
+			afficher_mat_bits(matrice, circuit);
 
 			printf("\nLe fichier [nouv_fichier.txt] a ete cree avec succes\n");
 
-			t_circuit_destroy(circuit_3);
+			t_circuit_destroy(circuit);
 
 			break;
 		}
@@ -211,6 +228,8 @@ int main(void)
 	return EXIT_SUCCESS;
 }
 
+/*==========================================================*/
+//Fonction: CONSTRUIRE_CIRCUIT_M1
 void construire_circuit_m1(t_circuit* circuit)
 {  
 	//variables locales pour les composantes du circuit
@@ -258,6 +277,8 @@ void construire_circuit_m1(t_circuit* circuit)
 	t_sortie_relier(sortie1, t_porte_get_nom(porte_xor), t_porte_get_pin_sortie(porte_xor));
 }
 
+/*==========================================================*/
+//Fonction: CONSTRUIRE_CIRCUIT_M2
 void construire_circuit_m2(t_circuit* circuit)
 {
 	//variables locales pour les composantes du circuit

@@ -17,9 +17,8 @@
 /*                         DECLARATION DES FONCTIONS PRIVEES                           */
 /***************************************************************************************/
 
-static int inverser_tab_bits(int tab_bits[], int nb_bits);
-static int codage_dec2bin(int nombre, int resultat[]);
-static void afficher_tab_bits(const int tab_bits[], int nb_bits);
+static int inverser_tab_bits(int tab_bits[], int nb_bits, const t_circuit* le_circuit);
+static int codage_dec2bin(int nombre, int resultat[], const t_circuit* le_circuit);
 
 
 /***************************************************************************************/
@@ -34,38 +33,57 @@ int** t_circuit_tdv(const t_circuit* le_circuit)
     int nb_sorties = t_circuit_get_nb_sorties(le_circuit);
     int nb_colonnes = nb_entrees + nb_sorties;
     int nb_lignes = pow(2, nb_entrees);
+    int signal[MAX_ENTREES];
+    int* bits_entrees;
 
-    int** matrice = (int**)malloc(nb_colonnes * sizeof(int*));
-    for (int i = 0; i < nb_colonnes; i++)
+    //Créer la matrice
+    int** matrice = (int**)malloc(nb_lignes * sizeof(int*));
+    for (int i = 0; i < nb_lignes; i++)
     {
-        matrice[i] = (int*)malloc(nb_lignes * sizeof(int*));
+        matrice[i] = (int*)malloc(nb_colonnes * sizeof(int));
     }
 
-    int signal[MAX_ENTREES];
+    //Mettre les valeur de toutes les combinaisons d'entrées
+    t_circuit_reset(le_circuit);
 
     for (int i = 0; i < nb_lignes; i++)
     {
+        //Traduire la ligne en binaire
+        bits_entrees = (int*)malloc(nb_entrees * sizeof(int*));
+        codage_dec2bin(i, bits_entrees, le_circuit);
 
+        //mettre les bits des entrées dans le tableau
+        for (int j = 0; j < nb_entrees; j++)
+        {
+            matrice[i][j] = bits_entrees[j];
+        }
+
+        t_circuit_appliquer_signal(le_circuit, matrice[i], t_circuit_get_nb_entrees(le_circuit));
+        t_circuit_propager_signal(le_circuit);
+
+        //écrire les valeurs des sorties dans la matrice
+        for (int j = 0; j < nb_sorties; j++)
+        {
+            matrice[i][nb_entrees + j] = le_circuit->sorties[j]->pin->valeur;
+        }
     }
 
     return matrice;
 }
 
 /*==========================================================*/
-//Fonction "inverser_tab_bits" - Fonction qui inverse les "nb_bits/2" premières valeurs d'un tableau de bits: le premier bit devient la dernier (et inversement), le deuxième devient l'avant dernier, etc. Cette fonction est utilisée par la fonction "codage_dec2bin". 
-int inverser_tab_bits(int tab_bits[], int nb_bits)
+//Fonction: INVERSER_TAB_BITS
+int inverser_tab_bits(int tab_bits[], int nb_bits, const t_circuit* le_circuit)
 {
-    int i; //Variable temporaire pour la boucle for.
+    int temp;
 
-    int temp; //Variable temporaire qui permet de stocker la valeur d'une position du tableau tab_bits[].
-
-    if (nb_bits <= CODAGE_NB_BITS)
+    if (nb_bits <= t_circuit_get_nb_entrees(le_circuit))
     {
-        for (i = 0; i < nb_bits / 2; i++)
+        for (int i = 0; i < nb_bits / 2; i++)
         {
-            temp = tab_bits[i]; //exemple 0 est mise dans la variable temp
-            tab_bits[i] = tab_bits[nb_bits - i - 1]; // i devient donc 7
-            tab_bits[nb_bits - i - 1] = temp; //et le dernier élément devient donc 
+            temp = tab_bits[i];
+            tab_bits[i] = tab_bits[nb_bits - 1 - i];
+            tab_bits[nb_bits - 1 - i] = temp;
         }
 
         return 1;
@@ -75,47 +93,54 @@ int inverser_tab_bits(int tab_bits[], int nb_bits)
 }
 
 /*==========================================================*/
-//Fonction "codage_dec2bin" - Le résultat est stocké dans le tableau "resultat" et le nombre de bits utilisés est renvoyé. Le codage du nombre décimal doit se faire en un maximum de CODAGE_NB_BITS (fixée à 8).
-int codage_dec2bin(int nombre, int resultat[])
+//Fonction: CODAGE_DEC2BIN
+int codage_dec2bin(int nombre, int resultat[], const t_circuit* le_circuit)
 {
-    int compt = 0; //Compter chaque fois pour renvoyer le nombre de bits nécessaire pour ce nombre.
-    int bin; //Permet destocker le résultat de la division euclidienne du nombre par 2.
-    int inverse; //Permet de stocker la valeur retourné par le fonction "inverser_tab_bits".
-    int i; //Variable temporaire pour la boucle for.
+    int bit;
+    int nb_bits = 0;
 
-    //stocker résultat dans le tableau, jusquà 8 bits
-
-    while (nombre > 0)
+    //Pour déterminer si la case du tableau contient un 1 ou un 0
+    for (int i = 0; i < t_circuit_get_nb_entrees(le_circuit); i++)
     {
-        bin = nombre % 2; //fais le modulo de 2
+        bit = nombre % 2;
+        resultat[i] = bit;
+
+        //Pour trouver le nombre de bits utilisés pour écrire la valeur en binaire
+        if (nombre)
+        {
+            nb_bits++;
+        }
+
         nombre /= 2;
-        resultat[compt] = bin; //ajoute ce résultat dans la position
-        compt++;
     }
 
-    for (i = compt; i < CODAGE_NB_BITS; i++)
-    {
-        resultat[i] = 0;
-    }
-
-    inverse = inverser_tab_bits(resultat, CODAGE_NB_BITS);
-
-    if (compt > CODAGE_NB_BITS)
-    {
-        return 0;
-    }
-    else
-        return compt;
+    inverser_tab_bits(resultat, t_circuit_get_nb_entrees(le_circuit), le_circuit);
+    return nb_bits;
 }
 
 /*==========================================================*/
-//Fonction "afficher_tab_bits" - Affiche un tableau contenant des bits à l'écran. Cette fonction est utilisée pour des fins de test. 
-void afficher_tab_bits(const int tab_bits[], int nb_bits)
+//Fonction: AFFICHER_MAT_BITS
+void afficher_mat_bits(int ** mat_bits, const t_circuit* le_circuit)
 {
-    int i; //Variable temporaire pour la boucle for.
-
-    for (i = 0; i < nb_bits; i++)
+    for (int i = 0; i < (le_circuit->nb_entrees); i++)
     {
-        printf("%d", tab_bits[i]);
+        printf("E%d ", i);
+    }
+
+    for (int i = 0; i < (le_circuit->nb_sorties); i++)
+    {
+        printf("S%d ", i);
+    }
+
+    printf("\n");
+
+    for (int i = 0; i < pow(2, t_circuit_get_nb_entrees(le_circuit)); i++)
+    {
+        for (int j = 0; j < (t_circuit_get_nb_entrees(le_circuit) + t_circuit_get_nb_sorties(le_circuit)); j++)
+        {
+            printf("%d  ", mat_bits[i][j]);
+        }
+
+        printf("\n");
     }
 }
