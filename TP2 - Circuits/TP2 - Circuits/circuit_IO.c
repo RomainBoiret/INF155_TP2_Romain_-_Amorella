@@ -141,7 +141,7 @@ static void ecrire_liens(FILE* nom_fichier, const  t_circuit* circuit)
 			printf("%s", nomlien);
 		}
 
-		fprintf(nom_fichier, "%c", '\n'); //saut de ligne.
+		fprintf(nom_fichier, "\n"); //saut de ligne.
 		printf("\n");
 	}
 }
