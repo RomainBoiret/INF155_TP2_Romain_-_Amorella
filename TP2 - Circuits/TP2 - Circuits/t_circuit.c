@@ -224,7 +224,6 @@ int t_circuit_propager_signal(t_circuit* circuit)
 		enleverdebut(&nouv_file, &porte_courante);
 
 		int val_propage = t_porte_propager_signal(porte_courante);
-
 		//Si ça ne se propage pas on le range dans la file.
 		if (val_propage == FAUX)
 		{
