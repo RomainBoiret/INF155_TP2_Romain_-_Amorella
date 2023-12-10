@@ -12,7 +12,7 @@
 
 #include "t_circuit.h"
 
-#define TAILLE 100	//	Nombre de caracteres maximums que peut contenir une chaîne.
+#define TAILLE 100	//	Nombre de caracteres maximums que peut contenir une chaÃ®ne.
 #define CONVERT_ASCII 48 // Valeur de conversion d'un caractere en entier.
 
 /*******************************************************************************/
