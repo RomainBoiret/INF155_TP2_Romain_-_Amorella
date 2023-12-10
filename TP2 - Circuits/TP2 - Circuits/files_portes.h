@@ -6,7 +6,7 @@
 
 typedef struct t_porte t_porte;
 
-#define MAXFILE 20	 // Nombre d'éléments maximal que peut contenir une file.
+#define MAXFILE 20	 // Nombre d'elements maximums que peut contenir une file.
 
 //changer cette declaration pour obtenir une file pour un autre type
 typedef t_porte* t_element;
@@ -14,7 +14,7 @@ typedef t_porte* t_element;
 typedef struct {
 	t_element file[MAXFILE];
 	int       debut, fin;
-	int       total;          //le nombre total d'éléments dans la file
+	int       total;          //le nombre total d'Ã©lÃ©ments dans la file
 } t_file;
 
 //fonction pour initialiser une file, la file sera vide apres un appel
