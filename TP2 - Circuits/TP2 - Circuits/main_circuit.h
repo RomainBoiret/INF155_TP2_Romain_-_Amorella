@@ -10,7 +10,7 @@
 #ifndef MAIN_CIRCUIT_H_
 #define MAIN_CIRCUIT_H_
 
-#include "table_de_veritee.h"
+#include "bonus.h"
 
 // Constantes representant les differents modes de creation de circuit manuel ou a partir d'un fichier.
 #define MANUEL_1 1  // Mode manuel 1.
@@ -34,7 +34,6 @@
  * Fonction: construire_circuit_m1
  * Auteurs: THE Eric.
  * Tache: Construit un circuit specifique (M1) avec des portes logiques et des entrees/sorties.
- *
  * Parametres: 
  *   - circuit : Un pointeur vers la structure du circuit a construire.
  *               Doit etre non NULL.
@@ -45,7 +44,6 @@ void construire_circuit_m1(t_circuit* circuit);
  * Fonction: construire_circuit_m2
  * Auteurs: BOIRET Romain.
  * Tache: Construit un circuit seécifique (M2) avec des portes logiques et des entrees/sorties.
- *
  * Parametres:
  *   - circuit : Un pointeur vers la structure du circuit a construire.
  *               Doit etre non NULL.
@@ -56,7 +54,6 @@ void construire_circuit_m2(t_circuit* circuit);
  * Fonction: construire_circuit_m3
  * Auteurs: LENGA Amorella.
  * Tache: Construit un circuit specifique (M3) avec des portes logiques et des entrees/sorties.
- *
  * Parametres: 
  *   - circuit : Un pointeur vers la structure du circuit a construire.
  *               Doit etre non NULL.
