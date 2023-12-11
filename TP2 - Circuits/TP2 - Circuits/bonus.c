@@ -186,9 +186,11 @@ void t_circuit_equations(int** mat_bits, const t_circuit* le_circuit)
     int nb_sorties_act = 0; // Compteur pour le nombre de sorties actives dans une ligne donnee.
     int nb_sorties_inact = 0; // Compteur pour le nombre de sorties inactives dans une ligne donnee.
 
-    for (int j = 0; j < le_circuit->nb_sorties; j++) // Boucle parcourant chaque sortie du circuit.
+    // Boucle parcourant chaque sortie du circuit.
+    for (int j = 0; j < le_circuit->nb_sorties; j++)
     {
-        for (int i = 0; i < nb_lignes; i++) // Boucle parcourant chaque ligne de la matrice mat_bits.
+        // Boucle parcourant chaque ligne de la matrice mat_bits.
+        for (int i = 0; i < nb_lignes; i++)
         {
             // Verifie si la sortie j est activee dans la ligne i.
             if (mat_bits[i][le_circuit->nb_entrees + j] == 1)
