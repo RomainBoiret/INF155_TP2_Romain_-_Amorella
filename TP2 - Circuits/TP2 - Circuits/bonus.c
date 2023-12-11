@@ -1,17 +1,17 @@
 /**************************************************************************************************************************************/
-/*  Fichier : TABLE_DE_VERITEE.C																						              */
+/*  Fichier : BONUS.C																						                          */
 /*  Auteurs : BOIRET Romain   BOIR71300401																		                      */
 /*	          LENGA  Amorella LENA91330301																		                      */
 /*  Date de creation : <28 / 11 / 2023>																		                          */
 /*                                                                                                                                    */
-/*  Ce module contient l'ensemble des fonctions travaillant sur la table de veritee du circuit.                                       */
+/*  Ce module contient l'ensemble des fonctions travaillant sur la table de veritee et les equations des sorties du circuit.          */
 /**************************************************************************************************************************************/
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <assert.h>
 #include <stdlib.h>
 #include <math.h>
-#include "table_de_veritee.h"
+#include "bonus.h"
 
 /***************************************************************************************/
 /*                         DECLARATION DES FONCTIONS PRIVEES                           */
@@ -169,5 +169,59 @@ void afficher_mat_bits(int** mat_bits, const t_circuit* le_circuit)
         }
 
         printf("\n"); // Retour a la ligne.
+    }
+}
+
+/*==========================================================*/
+// Fonction: t_circuit_equations
+// Description: Cette fonction affiche les equations des sorties pour un circuit donné.
+// Strategie: La fonction parcourt la matrice mat_bits representant les entrees et les sorties du circuit.
+//            Pour chaque sortie du circuit, elle genere l'equation logique correspondante en utilisant les valeurs binaires des entrees.
+//            Les valeurs binaires sont interpretees comme les etats des entrees pour lesquelles la sortie donnee est activee (valeur 1).
+//            Elle utilise la logique booleenne pour generer les equations de sortie en fonction des entrees activees.
+void t_circuit_equations(int** mat_bits, const t_circuit* le_circuit)
+{
+    int nb_lignes = pow(2, le_circuit->nb_entrees); // Nombre de lignes (combinaisons d'entrees possibles).
+    int nb_colonnes = t_circuit_get_nb_entrees(le_circuit) + t_circuit_get_nb_sorties(le_circuit); // Nombre total de colonnes dans la matrice.
+    int nb_sorties_act = 0; // Compteur pour le nombre de sorties actives dans une ligne donnee.
+    int nb_sorties_inact = 0; // Compteur pour le nombre de sorties inactives dans une ligne donnee.
+
+    for (int j = 0; j < le_circuit->nb_sorties; j++) // Boucle parcourant chaque sortie du circuit.
+    {
+        for (int i = 0; i < nb_lignes; i++) // Boucle parcourant chaque ligne de la matrice mat_bits.
+        {
+            // Verifie si la sortie j est activee dans la ligne i.
+            if (mat_bits[i][le_circuit->nb_entrees + j] == 1)
+            {
+                nb_sorties_act++; // Incremente le compteur de sorties actives.
+
+                if (nb_sorties_act < 2)
+                    printf("\nS%d = ", j); // Affiche la sortie si c'est la premiere de l'equation.
+                else
+                    printf(" + "); // Affiche le signe "+" entre les termes de l'equation.
+
+                // Boucle parcourant les colonnes correspondant aux entrees.
+                for (int k = 0; k < (nb_colonnes - le_circuit->nb_sorties); k++)
+                {
+                    if (mat_bits[i][k] == 1)
+                        printf("E%d", k); // Affiche l'entree k si elle est active.
+                    else
+                        printf("!E%d", k); // Affiche la negation de l'entrée k si elle n'est pas active.
+
+                    if (k != (nb_colonnes - le_circuit->nb_sorties) - 1)
+                        printf("*"); // Ajoute le symbole "*" sauf pour le dernier terme de l'equation.
+                }
+            }
+
+            // Verifie si la sortie j est inactivee dans la ligne i et si le compteur de sorties inactives et a 0.
+            else if (mat_bits[i][le_circuit->nb_entrees + j] == INACTIF && nb_sorties_inact == 0)
+            {
+                nb_sorties_inact++; // Incremente le compteur de sorties inactives.
+                printf("\nAucune equations possible pour S%d !", j);
+            }
+        }
+
+        nb_sorties_act = 0; // Reinitialise le compteur de sorties actives pour la prochaine sortie.
+        nb_sorties_inact = 0; // Reinitialise le compteur de sorties inactives pour la prochaine sortie.
     }
 }

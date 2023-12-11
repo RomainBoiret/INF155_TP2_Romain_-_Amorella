@@ -1,13 +1,13 @@
-/************************************************************************************************************************************************************/
-/*  Fichier : MAIN_CIRCUIT.C																						                                        */
-/*  Auteurs : BOIRET Romain   BOIR71300401																		                                            */
-/*	          LENGA  Amorella LENA91330301																		                                            */
-/*  Date de creation : <28 / 11 / 2023>																		                                                */
-/*                                                                                                                                                          */
-/*  Ce module contient la fonction main(), ainsi que les definitions des fonctions qui vont construire les circuits.                                        */
-/*																																							*/
-/*  But du programme : Ce programme permet de concevoir des circuits logiques combinatoires (CLCs) et d’en calculer la table de verite.                     */
-/************************************************************************************************************************************************************/
+/********************************************************************************************************************************************************************************************/
+/*  Fichier : MAIN_CIRCUIT.C																																								*/
+/*  Auteurs : BOIRET Romain   BOIR71300401																																					*/
+/*	          LENGA  Amorella LENA91330301																																					*/
+/*  Date de creation : <28 / 11 / 2023>																																						*/
+/*																																															*/
+/*  Ce module contient la fonction main(), ainsi que les definitions des fonctions qui vont construire les circuits.																		*/
+/*																																							                                */
+/*  But du programme : Ce programme permet de concevoir des circuits logiques combinatoires (CLCs) et d’en calculer la table de verite ainsi que les equations des sorties du circuit.		*/
+/********************************************************************************************************************************************************************************************/
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <assert.h>
@@ -105,7 +105,11 @@ int main(void)
 			printf("\nTable de verite du circuit:\n");
 			afficher_mat_bits(matrice, circuit);
 
-			printf("\nLe fichier [%s] a ete cree avec succes\n", nouv_fichier);
+			// Affichage des equations.
+			printf("\nEquations des sorties du circuit (on ecrit le signe '!' devant le nom de l'entree si elle doit etre desactivee):");
+			t_circuit_equations(matrice, circuit);
+
+			printf("\n\nLe fichier [%s] a ete cree avec succes\n", nouv_fichier);
 
 			// Liberation de la memoire du circuit.
 			t_circuit_destroy(circuit);
@@ -167,7 +171,11 @@ int main(void)
 			printf("\nTable de verite du circuit:\n");
 			afficher_mat_bits(matrice, circuit);
 
-			printf("\nLe fichier [%s] a ete cree avec succes\n", nouv_fichier);
+			// Affichage des equations.
+			printf("\nEquations des sorties du circuit (on ecrit le signe '!' devant le nom de l'entree si elle doit etre desactivee):");
+			t_circuit_equations(matrice, circuit);
+
+			printf("\n\nLe fichier [%s] a ete cree avec succes\n", nouv_fichier);
 
 			// Liberation de la memoire du circuit.
 			t_circuit_destroy(circuit);
@@ -228,7 +236,11 @@ int main(void)
 			printf("\nTable de verite du circuit:\n");
 			afficher_mat_bits(matrice, circuit);
 
-			printf("\nLe fichier [%s] a ete cree avec succes\n", nouv_fichier);
+			// Affichage des equations.
+			printf("\nEquations des sorties du circuit (on ecrit le signe '!' devant le nom de l'entree si elle doit etre desactivee):");
+			t_circuit_equations(matrice, circuit);
+
+			printf("\n\nLe fichier [%s] a ete cree avec succes\n", nouv_fichier);
 
 			// Liberation de la memoire du circuit.
 			t_circuit_destroy(circuit);
@@ -319,7 +331,11 @@ int main(void)
 			printf("\nTable de verite du circuit:\n");
 			afficher_mat_bits(matrice, circuit);
 
-			printf("\nLe fichier [%s] a ete cree avec succes\n", nouv_fichier);
+			// Affichage des equations.
+			printf("\nEquations des sorties du circuit (on ecrit le signe '!' devant le nom de l'entree si elle doit etre desactivee):");
+			t_circuit_equations(matrice, circuit);
+
+			printf("\n\nLe fichier [%s] a ete cree avec succes\n", nouv_fichier);
 
 			// Liberation de la memoire du circuit.
 			t_circuit_destroy(circuit);
@@ -327,7 +343,8 @@ int main(void)
 			break;
 		}
 	}
-	  
+	 
+	system("pause");
 	return EXIT_SUCCESS;
 }
 
