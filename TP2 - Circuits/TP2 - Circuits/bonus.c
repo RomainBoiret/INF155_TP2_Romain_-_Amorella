@@ -219,7 +219,7 @@ void t_circuit_equations(int** mat_bits, const t_circuit* le_circuit)
             else if (mat_bits[i][le_circuit->nb_entrees + j] == INACTIF && nb_sorties_inact == 0)
             {
                 nb_sorties_inact++; // Incremente le compteur de sorties inactives.
-                printf("\nAucune equations possible pour S%d !", j);
+                printf("\nAucune equation possible pour S%d !", j);
             }
         }
 
